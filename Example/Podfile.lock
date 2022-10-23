@@ -1,0 +1,16 @@
+PODS:
+  - Locky (0.1.0)
+
+DEPENDENCIES:
+  - Locky (from `../`)
+
+EXTERNAL SOURCES:
+  Locky:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Locky: 6ba2f474e699c04f0839d3a4ae561ff14311e45d
+
+PODFILE CHECKSUM: e9932be9d0c82d7dc6142944a0d8e31e57aa6ac9
+
+COCOAPODS: 1.11.2
