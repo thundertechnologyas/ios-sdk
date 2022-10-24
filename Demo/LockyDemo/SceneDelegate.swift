@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  Locky
+//  LockyDemo
 //
 //  Created by Shaolin Zhou on 2022/10/24.
 //

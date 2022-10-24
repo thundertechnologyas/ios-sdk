@@ -7,102 +7,156 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		485D022D2906E14C000DCB94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D022C2906E14C000DCB94 /* AppDelegate.swift */; };
-		485D022F2906E14C000DCB94 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D022E2906E14C000DCB94 /* SceneDelegate.swift */; };
-		485D02312906E14C000DCB94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02302906E14C000DCB94 /* ViewController.swift */; };
-		485D02342906E14C000DCB94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 485D02322906E14C000DCB94 /* Main.storyboard */; };
-		485D02362906E14E000DCB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485D02352906E14E000DCB94 /* Assets.xcassets */; };
-		485D02392906E14E000DCB94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 485D02372906E14E000DCB94 /* LaunchScreen.storyboard */; };
+		485D025A2906E7B2000DCB94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02592906E7B2000DCB94 /* AppDelegate.swift */; };
+		485D025C2906E7B2000DCB94 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D025B2906E7B2000DCB94 /* SceneDelegate.swift */; };
+		485D025E2906E7B2000DCB94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D025D2906E7B2000DCB94 /* ViewController.swift */; };
+		485D02612906E7B2000DCB94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 485D025F2906E7B2000DCB94 /* Main.storyboard */; };
+		485D02632906E7B3000DCB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485D02622906E7B3000DCB94 /* Assets.xcassets */; };
+		485D02662906E7B3000DCB94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 485D02642906E7B3000DCB94 /* LaunchScreen.storyboard */; };
+		485D027B2906E8A8000DCB94 /* Locky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485D02752906E7E9000DCB94 /* Locky.framework */; };
+		485D027C2906E8A8000DCB94 /* Locky.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 485D02752906E7E9000DCB94 /* Locky.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		485D02742906E7E9000DCB94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 485D026D2906E7E9000DCB94 /* Locky.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "locky::Locky::Product";
+			remoteInfo = Locky;
+		};
+		485D02762906E7E9000DCB94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 485D026D2906E7E9000DCB94 /* Locky.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "locky::LockyTests::Product";
+			remoteInfo = LockyTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		485D027D2906E8A8000DCB94 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				485D027C2906E8A8000DCB94 /* Locky.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		485D02292906E14C000DCB94 /* Locky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Locky.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		485D022C2906E14C000DCB94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		485D022E2906E14C000DCB94 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		485D02302906E14C000DCB94 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		485D02332906E14C000DCB94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		485D02352906E14E000DCB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		485D02382906E14E000DCB94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		485D023A2906E14E000DCB94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		485D02562906E7B2000DCB94 /* LockyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		485D02592906E7B2000DCB94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		485D025B2906E7B2000DCB94 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		485D025D2906E7B2000DCB94 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		485D02602906E7B2000DCB94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		485D02622906E7B3000DCB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		485D02652906E7B3000DCB94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		485D02672906E7B3000DCB94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		485D026D2906E7E9000DCB94 /* Locky.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Locky.xcodeproj; path = ../Locky/Locky.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		485D02262906E14C000DCB94 /* Frameworks */ = {
+		485D02532906E7B2000DCB94 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				485D027B2906E8A8000DCB94 /* Locky.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		485D02202906E14C000DCB94 = {
+		485D024D2906E7B2000DCB94 = {
 			isa = PBXGroup;
 			children = (
-				485D022B2906E14C000DCB94 /* Locky */,
-				485D022A2906E14C000DCB94 /* Products */,
+				485D026D2906E7E9000DCB94 /* Locky.xcodeproj */,
+				485D02582906E7B2000DCB94 /* LockyDemo */,
+				485D02572906E7B2000DCB94 /* Products */,
+				485D027A2906E8A8000DCB94 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		485D022A2906E14C000DCB94 /* Products */ = {
+		485D02572906E7B2000DCB94 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				485D02292906E14C000DCB94 /* Locky.app */,
+				485D02562906E7B2000DCB94 /* LockyDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		485D022B2906E14C000DCB94 /* Locky */ = {
+		485D02582906E7B2000DCB94 /* LockyDemo */ = {
 			isa = PBXGroup;
 			children = (
-				485D022C2906E14C000DCB94 /* AppDelegate.swift */,
-				485D022E2906E14C000DCB94 /* SceneDelegate.swift */,
-				485D02302906E14C000DCB94 /* ViewController.swift */,
-				485D02322906E14C000DCB94 /* Main.storyboard */,
-				485D02352906E14E000DCB94 /* Assets.xcassets */,
-				485D02372906E14E000DCB94 /* LaunchScreen.storyboard */,
-				485D023A2906E14E000DCB94 /* Info.plist */,
+				485D02592906E7B2000DCB94 /* AppDelegate.swift */,
+				485D025B2906E7B2000DCB94 /* SceneDelegate.swift */,
+				485D025D2906E7B2000DCB94 /* ViewController.swift */,
+				485D025F2906E7B2000DCB94 /* Main.storyboard */,
+				485D02622906E7B3000DCB94 /* Assets.xcassets */,
+				485D02642906E7B3000DCB94 /* LaunchScreen.storyboard */,
+				485D02672906E7B3000DCB94 /* Info.plist */,
 			);
-			path = Locky;
+			path = LockyDemo;
+			sourceTree = "<group>";
+		};
+		485D026E2906E7E9000DCB94 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				485D02752906E7E9000DCB94 /* Locky.framework */,
+				485D02772906E7E9000DCB94 /* LockyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		485D027A2906E8A8000DCB94 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		485D02282906E14C000DCB94 /* Locky */ = {
+		485D02552906E7B2000DCB94 /* LockyDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 485D023D2906E14E000DCB94 /* Build configuration list for PBXNativeTarget "Locky" */;
+			buildConfigurationList = 485D026A2906E7B3000DCB94 /* Build configuration list for PBXNativeTarget "LockyDemo" */;
 			buildPhases = (
-				485D02252906E14C000DCB94 /* Sources */,
-				485D02262906E14C000DCB94 /* Frameworks */,
-				485D02272906E14C000DCB94 /* Resources */,
+				485D02522906E7B2000DCB94 /* Sources */,
+				485D02532906E7B2000DCB94 /* Frameworks */,
+				485D02542906E7B2000DCB94 /* Resources */,
+				485D027D2906E8A8000DCB94 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Locky;
-			productName = Locky;
-			productReference = 485D02292906E14C000DCB94 /* Locky.app */;
+			name = LockyDemo;
+			productName = LockyDemo;
+			productReference = 485D02562906E7B2000DCB94 /* LockyDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		485D02212906E14C000DCB94 /* Project object */ = {
+		485D024E2906E7B2000DCB94 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
-					485D02282906E14C000DCB94 = {
+					485D02552906E7B2000DCB94 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
 			};
-			buildConfigurationList = 485D02242906E14C000DCB94 /* Build configuration list for PBXProject "Locky" */;
+			buildConfigurationList = 485D02512906E7B2000DCB94 /* Build configuration list for PBXProject "LockyDemo" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -110,55 +164,78 @@
 				en,
 				Base,
 			);
-			mainGroup = 485D02202906E14C000DCB94;
-			productRefGroup = 485D022A2906E14C000DCB94 /* Products */;
+			mainGroup = 485D024D2906E7B2000DCB94;
+			productRefGroup = 485D02572906E7B2000DCB94 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 485D026E2906E7E9000DCB94 /* Products */;
+					ProjectRef = 485D026D2906E7E9000DCB94 /* Locky.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
-				485D02282906E14C000DCB94 /* Locky */,
+				485D02552906E7B2000DCB94 /* LockyDemo */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		485D02752906E7E9000DCB94 /* Locky.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Locky.framework;
+			remoteRef = 485D02742906E7E9000DCB94 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		485D02772906E7E9000DCB94 /* LockyTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = file;
+			path = LockyTests.xctest;
+			remoteRef = 485D02762906E7E9000DCB94 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
-		485D02272906E14C000DCB94 /* Resources */ = {
+		485D02542906E7B2000DCB94 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				485D02392906E14E000DCB94 /* LaunchScreen.storyboard in Resources */,
-				485D02362906E14E000DCB94 /* Assets.xcassets in Resources */,
-				485D02342906E14C000DCB94 /* Main.storyboard in Resources */,
+				485D02662906E7B3000DCB94 /* LaunchScreen.storyboard in Resources */,
+				485D02632906E7B3000DCB94 /* Assets.xcassets in Resources */,
+				485D02612906E7B2000DCB94 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		485D02252906E14C000DCB94 /* Sources */ = {
+		485D02522906E7B2000DCB94 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				485D02312906E14C000DCB94 /* ViewController.swift in Sources */,
-				485D022D2906E14C000DCB94 /* AppDelegate.swift in Sources */,
-				485D022F2906E14C000DCB94 /* SceneDelegate.swift in Sources */,
+				485D025E2906E7B2000DCB94 /* ViewController.swift in Sources */,
+				485D025A2906E7B2000DCB94 /* AppDelegate.swift in Sources */,
+				485D025C2906E7B2000DCB94 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		485D02322906E14C000DCB94 /* Main.storyboard */ = {
+		485D025F2906E7B2000DCB94 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				485D02332906E14C000DCB94 /* Base */,
+				485D02602906E7B2000DCB94 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		485D02372906E14E000DCB94 /* LaunchScreen.storyboard */ = {
+		485D02642906E7B3000DCB94 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				485D02382906E14E000DCB94 /* Base */,
+				485D02652906E7B3000DCB94 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -166,7 +243,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		485D023B2906E14E000DCB94 /* Debug */ = {
+		485D02682906E7B3000DCB94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -226,7 +303,7 @@
 			};
 			name = Debug;
 		};
-		485D023C2906E14E000DCB94 /* Release */ = {
+		485D02692906E7B3000DCB94 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -280,7 +357,7 @@
 			};
 			name = Release;
 		};
-		485D023E2906E14E000DCB94 /* Debug */ = {
+		485D026B2906E7B3000DCB94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -289,7 +366,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHQ7UZVNQZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Locky/Info.plist;
+				INFOPLIST_FILE = LockyDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -300,7 +377,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.linhua.Locky;
+				PRODUCT_BUNDLE_IDENTIFIER = com.linhua.LockyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -308,7 +385,7 @@
 			};
 			name = Debug;
 		};
-		485D023F2906E14E000DCB94 /* Release */ = {
+		485D026C2906E7B3000DCB94 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -317,7 +394,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHQ7UZVNQZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Locky/Info.plist;
+				INFOPLIST_FILE = LockyDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -328,7 +405,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.linhua.Locky;
+				PRODUCT_BUNDLE_IDENTIFIER = com.linhua.LockyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -339,25 +416,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		485D02242906E14C000DCB94 /* Build configuration list for PBXProject "Locky" */ = {
+		485D02512906E7B2000DCB94 /* Build configuration list for PBXProject "LockyDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				485D023B2906E14E000DCB94 /* Debug */,
-				485D023C2906E14E000DCB94 /* Release */,
+				485D02682906E7B3000DCB94 /* Debug */,
+				485D02692906E7B3000DCB94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		485D023D2906E14E000DCB94 /* Build configuration list for PBXNativeTarget "Locky" */ = {
+		485D026A2906E7B3000DCB94 /* Build configuration list for PBXNativeTarget "LockyDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				485D023E2906E14E000DCB94 /* Debug */,
-				485D023F2906E14E000DCB94 /* Release */,
+				485D026B2906E7B3000DCB94 /* Debug */,
+				485D026C2906E7B3000DCB94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 485D02212906E14C000DCB94 /* Project object */;
+	rootObject = 485D024E2906E7B2000DCB94 /* Project object */;
 }
