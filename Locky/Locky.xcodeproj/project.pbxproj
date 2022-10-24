@@ -25,7 +25,8 @@
 		485D02812906EA1A000DCB94 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02802906EA1A000DCB94 /* Environment.swift */; };
 		485D02832906EE07000DCB94 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02822906EE07000DCB94 /* Network.swift */; };
 		485D02872906EFD8000DCB94 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 485D02862906EFD8000DCB94 /* Alamofire */; };
-		OBJ_22 /* Locky.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Locky.swift */; };
+		485D028A2906F41B000DCB94 /* LockyBLEHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02892906F41B000DCB94 /* LockyBLEHelper.swift */; };
+		OBJ_22 /* LockyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* LockyView.swift */; };
 		OBJ_29 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_40 /* LockyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* LockyTests.swift */; };
 		OBJ_42 /* Locky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "locky::Locky::Product" /* Locky.framework */; };
@@ -52,9 +53,10 @@
 		485D027E2906EA00000DCB94 /* LockyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyService.swift; sourceTree = "<group>"; };
 		485D02802906EA1A000DCB94 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		485D02822906EE07000DCB94 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		485D02892906F41B000DCB94 /* LockyBLEHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyBLEHelper.swift; sourceTree = "<group>"; };
 		OBJ_12 /* LockyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_9 /* Locky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locky.swift; sourceTree = "<group>"; };
+		OBJ_9 /* LockyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyView.swift; sourceTree = "<group>"; };
 		"locky::Locky::Product" /* Locky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Locky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"locky::LockyTests::Product" /* LockyTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = LockyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -134,10 +136,11 @@
 		OBJ_8 /* Locky */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_9 /* Locky.swift */,
+				OBJ_9 /* LockyView.swift */,
 				485D027E2906EA00000DCB94 /* LockyService.swift */,
 				485D02802906EA1A000DCB94 /* Environment.swift */,
 				485D02822906EE07000DCB94 /* Network.swift */,
+				485D02892906F41B000DCB94 /* LockyBLEHelper.swift */,
 			);
 			name = Locky;
 			path = Sources/Locky;
@@ -236,7 +239,8 @@
 				485D027F2906EA00000DCB94 /* LockyService.swift in Sources */,
 				485D02812906EA1A000DCB94 /* Environment.swift in Sources */,
 				485D02832906EE07000DCB94 /* Network.swift in Sources */,
-				OBJ_22 /* Locky.swift in Sources */,
+				OBJ_22 /* LockyView.swift in Sources */,
+				485D028A2906F41B000DCB94 /* LockyBLEHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

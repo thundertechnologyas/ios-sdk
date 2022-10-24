@@ -1,6 +1,7 @@
 //
 //  LockyService.swift
 //  Locky
+//  service to restful api.
 //
 //  Created by Shaolin Zhou on 2022/10/24.
 //
@@ -8,7 +9,7 @@
 import Foundation
 import Alamofire
 
-class LockyService: Network {
+public class LockyService: Network {
     func startVerify(email: String, completion: @escaping ((Result<Bool?,Error>) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
