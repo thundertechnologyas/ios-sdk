@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/zhoushaolin/Locky'
+  s.homepage         = 'https://github.com/thundertechnologyas/ios-sdk'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'sherwinstar' => 'slzhouzsl@163.com' }
@@ -36,7 +36,6 @@ TODO: Add long description of the pod here.
   #   'Locky' => ['Locky/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+   s.frameworks = 'UIKit'
+   s.dependency 'AFNetworking', '~> 2.3'
 end
