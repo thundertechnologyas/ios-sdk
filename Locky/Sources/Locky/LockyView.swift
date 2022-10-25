@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SnapKit
 
 public class LockyView: UIView {
     override init(frame: CGRect) {

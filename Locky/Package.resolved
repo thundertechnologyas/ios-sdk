@@ -8,6 +8,15 @@
         "revision" : "8dd85aee02e39dd280c75eef88ffdb86eed4b07b",
         "version" : "5.6.2"
       }
+    },
+    {
+      "identity" : "kakajson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kakaopensource/KakaJSON.git",
+      "state" : {
+        "revision" : "88d8587a90b8efaac9228baee3a759c25f8a6dd3",
+        "version" : "1.1.2"
+      }
     }
   ],
   "version" : 2

@@ -26,6 +26,8 @@
 		485D02832906EE07000DCB94 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02822906EE07000DCB94 /* Network.swift */; };
 		485D02872906EFD8000DCB94 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 485D02862906EFD8000DCB94 /* Alamofire */; };
 		485D028A2906F41B000DCB94 /* LockyBLEHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02892906F41B000DCB94 /* LockyBLEHelper.swift */; };
+		485D053F29082FFB000DCB94 /* LockyMobileKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D053E29082FFB000DCB94 /* LockyMobileKey.swift */; };
+		485D05432908335A000DCB94 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 485D05422908335A000DCB94 /* SnapKit */; };
 		OBJ_22 /* LockyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* LockyView.swift */; };
 		OBJ_29 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_40 /* LockyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* LockyTests.swift */; };
@@ -54,6 +56,7 @@
 		485D02802906EA1A000DCB94 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		485D02822906EE07000DCB94 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		485D02892906F41B000DCB94 /* LockyBLEHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyBLEHelper.swift; sourceTree = "<group>"; };
+		485D053E29082FFB000DCB94 /* LockyMobileKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyMobileKey.swift; sourceTree = "<group>"; };
 		OBJ_12 /* LockyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* LockyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyView.swift; sourceTree = "<group>"; };
@@ -67,6 +70,7 @@
 			buildActionMask = 0;
 			files = (
 				485D02872906EFD8000DCB94 /* Alamofire in Frameworks */,
+				485D05432908335A000DCB94 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +145,7 @@
 				485D02802906EA1A000DCB94 /* Environment.swift */,
 				485D02822906EE07000DCB94 /* Network.swift */,
 				485D02892906F41B000DCB94 /* LockyBLEHelper.swift */,
+				485D053E29082FFB000DCB94 /* LockyMobileKey.swift */,
 			);
 			name = Locky;
 			path = Sources/Locky;
@@ -163,6 +168,7 @@
 			name = Locky;
 			packageProductDependencies = (
 				485D02862906EFD8000DCB94 /* Alamofire */,
+				485D05422908335A000DCB94 /* SnapKit */,
 			);
 			productName = Locky;
 			productReference = "locky::Locky::Product" /* Locky.framework */;
@@ -218,6 +224,7 @@
 			mainGroup = OBJ_5;
 			packageReferences = (
 				485D02852906EFD8000DCB94 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				485D05412908335A000DCB94 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = OBJ_14 /* Products */;
 			projectDirPath = "";
@@ -239,6 +246,7 @@
 				485D027F2906EA00000DCB94 /* LockyService.swift in Sources */,
 				485D02812906EA1A000DCB94 /* Environment.swift in Sources */,
 				485D02832906EE07000DCB94 /* Network.swift in Sources */,
+				485D053F29082FFB000DCB94 /* LockyMobileKey.swift in Sources */,
 				OBJ_22 /* LockyView.swift in Sources */,
 				485D028A2906F41B000DCB94 /* LockyBLEHelper.swift in Sources */,
 			);
@@ -547,6 +555,14 @@
 				kind = branch;
 			};
 		};
+		485D05412908335A000DCB94 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -554,6 +570,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 485D02852906EFD8000DCB94 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		485D05422908335A000DCB94 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 485D05412908335A000DCB94 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
