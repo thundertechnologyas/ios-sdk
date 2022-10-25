@@ -70,16 +70,29 @@ public class LockyService: Network {
         }
     }
     
-    func getAllLocks(mobileKeyString: String, completion: @escaping ((Bool?,  Error?) -> Void)) {
-        var params = [String: Any]()
-        params["domain"] = Environment.domain
-        params["mobilekeylist"] = mobileKeyString
-        AF.request(Environment.authEndpoint + "/api/simpleauth/mobilekeys",
-                   method: .post,
-                   parameters: params,
-                   encoding: JSONEncoding.default,
-                   headers: ["Content-Type": "application/json"]).responseData { response in
+    func getAllLocks(mobileKeys: [LockyMobileKey], completion: @escaping ((Bool?,  Error?) -> Void)) {
+        
+        for mobile in mobileKeys {
+            var params = [String: Any]()
+            params["domain"] = Environment.domain
+            var headers = [String: String]()
+            headers["tenantId"] = mobile.tenantId
+            headers["token"] = mobile.token
+            headers["Content-Type"] = "application/json"
+            let httpHeaders = HTTPHeaders(headers)
+            AF.request(Environment.endpoint + "/lockyapi/mobilekey/devices",
+                       method: .get,
+                       parameters: params,
+                       encoding: JSONEncoding.default,
+                       headers: httpHeaders).responseData { response in
+                guard let locksText = response.data else {
+                    completion(false, nil)
+                    return
+                }
+                
+            }
         }
+        
         
     }
 }
