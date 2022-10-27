@@ -95,4 +95,44 @@ public class LockyService: Network {
         
         
     }
+    
+    func downloadNormalState(deviceId: String, mobileKey: LockyMobileKey, completion: @escaping ((Result<String?,Error>) -> Void)) {
+        var params = [String: Any]()
+        params["deviceId"] = deviceId
+        var headers = [String: String]()
+        headers["tenantId"] = mobileKey.tenantId
+        headers["token"] = mobileKey.token
+        headers["Content-Type"] = "application/json"
+        let httpHeaders = HTTPHeaders(headers)
+        AF.request(Environment.endpoint + "lockyapi/mobilekey/normalstatepackage",
+                   method: .post,
+                   parameters: params,
+                   encoding: JSONEncoding.default,
+                   headers: httpHeaders).responseData { response in
+            guard let data = response.data else {
+                return
+            }
+        }
+    }
+    
+    func messageDelivered(deviceId: String, mobileKey: LockyMobileKey, payload: String, completion: @escaping ((Result<String?,Error>) -> Void)) {
+        var params = [String: Any]()
+        params["deviceId"] = deviceId
+        params["payload"] = payload
+        var headers = [String: String]()
+        headers["tenantId"] = mobileKey.tenantId
+        headers["token"] = mobileKey.token
+        headers["Content-Type"] = "application/json"
+        let httpHeaders = HTTPHeaders(headers)
+        AF.request(Environment.endpoint + "lockyapi/mobilekey/msgdelivered",
+                   method: .post,
+                   parameters: params,
+                   encoding: JSONEncoding.default,
+                   headers: httpHeaders).responseData { response in
+            guard let data = response.data else {
+                return
+            }
+        }
+    }
+    
 }
