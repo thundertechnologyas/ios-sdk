@@ -6,14 +6,24 @@
 //
 
 import UIKit
+import Locky
 
 class ViewController: UIViewController {
+    private lazy var lockyView: LockyView = {
+        let view = LockyView(frame: CGRect(x: 0, y: 24, width: UIScreen.main.bounds.size.width, height:  UIScreen.main.bounds.size.height - 56))
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        createSubviews()
     }
+}
 
-
+private extension ViewController {
+    func createSubviews() {
+        view.backgroundColor = .white
+        view.addSubview(lockyView)
+    }
 }
 

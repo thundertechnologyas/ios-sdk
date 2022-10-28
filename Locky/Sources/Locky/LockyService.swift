@@ -92,8 +92,6 @@ public class LockyService: Network {
                 
             }
         }
-        
-        
     }
     
     func downloadNormalState(deviceId: String, mobileKey: LockyMobileKey, completion: @escaping ((Result<String?,Error>) -> Void)) {
@@ -106,6 +104,63 @@ public class LockyService: Network {
         let httpHeaders = HTTPHeaders(headers)
         AF.request(Environment.endpoint + "lockyapi/mobilekey/normalstatepackage",
                    method: .post,
+                   parameters: params,
+                   encoding: JSONEncoding.default,
+                   headers: httpHeaders).responseData { response in
+            guard let data = response.data else {
+                return
+            }
+        }
+    }
+    
+    func downloadPulseOpen(deviceId: String, mobileKey: LockyMobileKey, completion: @escaping ((Result<String?,Error>) -> Void)) {
+        var params = [String: Any]()
+        params["deviceId"] = deviceId
+        var headers = [String: String]()
+        headers["tenantId"] = mobileKey.tenantId
+        headers["token"] = mobileKey.token
+        headers["Content-Type"] = "application/json"
+        let httpHeaders = HTTPHeaders(headers)
+        AF.request(Environment.endpoint + "lockyapi/mobilekey/pulseopenpackage",
+                   method: .get,
+                   parameters: params,
+                   encoding: JSONEncoding.default,
+                   headers: httpHeaders).responseData { response in
+            guard let data = response.data else {
+                return
+            }
+        }
+    }
+    
+    func downloadForcedOpen(deviceId: String, mobileKey: LockyMobileKey, completion: @escaping ((Result<String?,Error>) -> Void)) {
+        var params = [String: Any]()
+        params["deviceId"] = deviceId
+        var headers = [String: String]()
+        headers["tenantId"] = mobileKey.tenantId
+        headers["token"] = mobileKey.token
+        headers["Content-Type"] = "application/json"
+        let httpHeaders = HTTPHeaders(headers)
+        AF.request(Environment.endpoint + "lockyapi/mobilekey/forcedopenpackage",
+                   method: .get,
+                   parameters: params,
+                   encoding: JSONEncoding.default,
+                   headers: httpHeaders).responseData { response in
+            guard let data = response.data else {
+                return
+            }
+        }
+    }
+    
+    func downloadForcedClosed(deviceId: String, mobileKey: LockyMobileKey, completion: @escaping ((Result<String?,Error>) -> Void)) {
+        var params = [String: Any]()
+        params["deviceId"] = deviceId
+        var headers = [String: String]()
+        headers["tenantId"] = mobileKey.tenantId
+        headers["token"] = mobileKey.token
+        headers["Content-Type"] = "application/json"
+        let httpHeaders = HTTPHeaders(headers)
+        AF.request(Environment.endpoint + "lockyapi/mobilekey/forcedclosedpackage",
+                   method: .get,
                    parameters: params,
                    encoding: JSONEncoding.default,
                    headers: httpHeaders).responseData { response in

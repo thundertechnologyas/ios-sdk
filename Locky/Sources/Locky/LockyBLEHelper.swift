@@ -10,7 +10,7 @@ import CoreBluetooth
  
 public class LockyBLEHelper: NSObject {
 
-    static var share =  LockyBLEHelper()
+    public static var share =  LockyBLEHelper()
     
     lazy var centralManager:CBCentralManager = {
         let central = CBCentralManager.init(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey : false])
