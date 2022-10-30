@@ -107,7 +107,7 @@ private extension LockyView {
         emailTextField.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(firstHintLabel.snp.bottom).offset(15)
-            make.width.equalTo(200)
+            make.width.equalTo(150)
             make.height.equalTo(24)
         }
 

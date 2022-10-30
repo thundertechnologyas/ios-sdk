@@ -14,13 +14,17 @@ public class LockyService: Network {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["email"] = email
-        AF.request(Environment.authEndpoint + "api/simpleauth/start",
-                   method: .post,
+        let url = Environment.authEndpoint + "api/simpleauth/start"
+        AF.request(url,
+                   method: .get,
                    parameters: params,
-                   encoding: JSONEncoding.default,
-                   headers: ["Content-Type": "application/json"]).responseData { response in
-            guard let data = response.data else {
-                return
+                   encoding: URLEncoding.default,
+                   headers: nil).responseData { response in
+            let statusCode = response.response?.statusCode
+            if statusCode == 200 {
+                completion(true, nil)
+            } else {
+                completion(false, nil)
             }
         }
     }
