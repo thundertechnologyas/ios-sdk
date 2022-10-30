@@ -82,10 +82,12 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
         //start to find services nil is to find all services
         peripheral.discoverServices(nil)
     }
+    
     ///fail to connect
     public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         print("fail to connect:\(error.debugDescription)")
     }
+    
     ///did disconnect
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         print("disconnect")
@@ -100,6 +102,7 @@ extension LockyBLEHelper:CBPeripheralDelegate{
             return
             //error occurs
         }
+        
         for service in peripheral.services ?? [] {
             if service.uuid.uuidString == confirmServiceUUID {
                 peripheral.discoverCharacteristics(nil, for: service)

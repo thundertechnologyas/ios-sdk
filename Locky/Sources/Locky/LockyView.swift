@@ -38,6 +38,7 @@ public class LockyView: UIView {
     private let getMobileButton = UIButton()
     private let getLocksLabel = UILabel()
     private let getLocksButton = UIButton()
+    private var email: String?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,13 +54,14 @@ private extension LockyView {
     
     func createTextField() -> UITextField {
         let textField = UITextField()
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0));
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.leftViewMode = .always;
         textField.borderStyle = .none
         textField.placeHolderColor = .gray
         textField.returnKeyType = .done
         return textField
     }
+    
     func createSubviews() {
         if #available(iOS 11.0, *) {
             scrollView.contentInsetAdjustmentBehavior = .never
@@ -105,11 +107,12 @@ private extension LockyView {
         emailTextField.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(firstHintLabel.snp.bottom).offset(15)
-            make.width.equalTo(100)
+            make.width.equalTo(200)
             make.height.equalTo(24)
         }
 
         scrollView.addSubview(startButton)
+        startButton.addTarget(self, action: #selector(startEmailAction), for: .touchUpInside)
 
         startButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         startButton.setTitleColor(.black, for: .normal)
@@ -181,6 +184,8 @@ private extension LockyView {
             make.width.equalTo(100)
             make.height.equalTo(24)
         }
+        
+        verifyButton.addTarget(self, action: #selector(verifyAction), for: .touchUpInside)
 
         scrollView.addSubview(tokenHintLabel)
         tokenHintLabel.font = UIFont.systemFont(ofSize: 14)
@@ -238,6 +243,8 @@ private extension LockyView {
             make.width.equalTo(180)
             make.height.equalTo(24)
         }
+        
+        getMobileButton.addTarget(self, action: #selector(getMobileAction), for: .touchUpInside)
 
         scrollView.addSubview(getLocksLabel)
         getLocksLabel.font = UIFont.boldSystemFont(ofSize: 14)
@@ -267,9 +274,35 @@ private extension LockyView {
             make.height.equalTo(24)
         }
         
+        getLocksButton.addTarget(self, action: #selector(getLockAction), for: .touchUpInside)
+        
         updateConstraintsIfNeeded()
         layoutIfNeeded()
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y)
+    }
+    
+    @objc func startEmailAction(sender: Any) {
+        guard let emailText = emailTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !emailText.isEmpty else {
+            return
+        }
+        if !emailText.isVaildEmail() {
+            return
+        }
+        email = emailText
+        LockyService.startVerify(email: emailText) { result, error in
+            
+        }
+    }
+    
+    @objc func verifyAction(sender: Any) {
+        
+    }
+    
+    @objc func getMobileAction(sender: Any) {
+        
+    }
+    
+    @objc func getLockAction(sender: Any) {
         
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 public class LockyService: Network {
-    func startVerify(email: String, completion: @escaping ((Result<Bool?,Error>) -> Void)) {
+    class func startVerify(email: String, completion: @escaping ((Bool?,  Error?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["email"] = email
@@ -25,7 +25,7 @@ public class LockyService: Network {
         }
     }
     
-    func verify(email: String, code: String, completion: @escaping ((Result<String?,Error>) -> Void)) {
+    class func verify(email: String, code: String, completion: @escaping ((Bool?,  Error?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["email"] = email
@@ -113,6 +113,7 @@ public class LockyService: Network {
         }
     }
     
+    
     func downloadPulseOpen(deviceId: String, mobileKey: LockyMobileKey, completion: @escaping ((Result<String?,Error>) -> Void)) {
         var params = [String: Any]()
         params["deviceId"] = deviceId
@@ -189,5 +190,4 @@ public class LockyService: Network {
             }
         }
     }
-    
 }
