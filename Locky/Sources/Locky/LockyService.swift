@@ -54,32 +54,33 @@ public class LockyService {
         }
     }
     
-    func getMobileKeys(token: String, completion: @escaping (([LockyMobileKey]?, String?,  Error?) -> Void)) {
+    class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockyMobileKey]?, String?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["token"] = token
-        AF.request(Environment.authEndpoint + "/api/simpleauth/mobilekeys",
+        AF.request(Environment.authEndpoint + "api/simpleauth/mobilekeys",
                    method: .post,
                    parameters: params,
-                   encoding: JSONEncoding.default,
-                   headers: ["Content-Type": "application/json"]).responseData { response in
+                   encoding: URLEncoding.default,
+                   headers: nil).responseData { response in
             guard let data = response.data else {
-                completion(nil, nil, nil)
+                completion(false, nil, nil)
                 return
             }
-            let mobileKeyString = data as? String
-            guard let dict = data as? [String: String] else {
-                completion(nil, mobileKeyString, nil)
-                return
+            do {
+                let tenantList = try Network.decode(type: [String].self, data: data)
+                var dataArray:[LockyMobileKey] = []
+                for toCheck in tenantList {
+                    let tenantId = (toCheck as NSString).substring(to: 24)
+                    let token = (toCheck as NSString).substring(from: 24)
+                    dataArray.append(LockyMobileKey(token: token, tenantId: tenantId))
+                }
+                let jsonString = try Network.encode(from: tenantList)
+                completion(false, dataArray, jsonString)
+                
+            } catch {
+                completion(false, nil, nil)
             }
-            var dataArray:[LockyMobileKey] = []
-            for k in dict.keys {
-                let tocheck = dict[k]
-                let tenantId = (tocheck! as NSString).substring(to: 24)
-                let token = (tocheck! as NSString).substring(from: 24)
-                dataArray.append(LockyMobileKey(token: token, tenantId: tenantId))
-            }
-            completion(dataArray, mobileKeyString, nil)
         }
     }
     
@@ -125,7 +126,6 @@ public class LockyService {
             }
         }
     }
-    
     
     func downloadPulseOpen(deviceId: String, mobileKey: LockyMobileKey, completion: @escaping ((Result<String?,Error>) -> Void)) {
         var params = [String: Any]()

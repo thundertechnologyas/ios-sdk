@@ -12,4 +12,14 @@ open class Network {
         let jsonDecodable = JSONDecoder()
         return try jsonDecodable.decode(type, from: data)
     }
+    
+    class func encode<T: Encodable>(from data: T) throws -> String? {
+        let jsonEncoder = JSONEncoder()
+        let json = try jsonEncoder.encode(data)
+        let jsonString = String(data: json, encoding: .utf8)
+        return jsonString
+    }
+    
+    
+               
 }

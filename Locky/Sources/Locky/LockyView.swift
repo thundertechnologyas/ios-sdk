@@ -31,6 +31,7 @@ public class LockyView: UIView {
     private let tokenHintLabel = UILabel()
     private lazy var tokenTextField: UITextField = {
         let view = createTextField()
+        view.isEnabled = false
         return view
     }()
     
@@ -39,6 +40,7 @@ public class LockyView: UIView {
     private let getLocksLabel = UILabel()
     private let getLocksButton = UIButton()
     private var email: String?
+    private var tokenModel: TokenModel?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -310,20 +312,26 @@ private extension LockyView {
         guard let code = codeTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !code.isEmpty else {
             return
         }
-        LockyService.verify(email: emailText, code: code) {[weak self] tokenModel in
-            guard let tokenModel = tokenModel else {
+        LockyService.verify(email: emailText, code: code) {[weak self] token in
+            guard let token = token else {
                 return
             }
-            if tokenModel.token.isEmpty {
+            if token.token.isEmpty {
                 return
             } else {
-                
+                self?.tokenModel = token
+                self?.tokenTextField.text = token.token
             }
         }
     }
     
     @objc func getMobileAction(sender: Any) {
-        
+        guard let token = tokenModel, !token.token.isEmpty else {
+            return
+        }
+        LockyService.getMobileKeys(token: token.token) { mobileKeys, code, error in
+            
+        }
     }
     
     @objc func getLockAction(sender: Any) {
