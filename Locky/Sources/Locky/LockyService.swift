@@ -9,8 +9,8 @@
 import Foundation
 import Alamofire
 
-public class LockyService: Network {
-    class func startVerify(email: String, completion: @escaping ((Bool?,  Error?) -> Void)) {
+public class LockyService {
+    class func startVerify(email: String, completion: @escaping ((Bool,  Error?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["email"] = email
@@ -29,18 +29,27 @@ public class LockyService: Network {
         }
     }
     
-    class func verify(email: String, code: String, completion: @escaping ((Bool?,  Error?) -> Void)) {
+    class func verify(email: String, code: String, completion: @escaping ((TokenModel?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["email"] = email
         params["code"] = code
         AF.request(Environment.authEndpoint + "api/simpleauth/verify",
-                   method: .post,
+                   method: .get,
                    parameters: params,
-                   encoding: JSONEncoding.default,
-                   headers: ["Content-Type": "application/json"]).responseData { response in
-            guard let data = response.data else {
+                   encoding: URLEncoding.default,
+                   headers: nil).responseData { response in
+            let statusCode = response.response?.statusCode
+            guard let data = response.data, statusCode == 200 else {
+                completion(nil)
                 return
+            }
+            
+            do {
+                let model = try Network.decode(type: TokenModel.self, data: data)
+                completion(model)
+            } catch {
+                completion(nil)
             }
         }
     }

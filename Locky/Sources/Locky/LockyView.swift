@@ -288,14 +288,38 @@ private extension LockyView {
         if !emailText.isVaildEmail() {
             return
         }
-        email = emailText
-        LockyService.startVerify(email: emailText) { result, error in
-            
+        LockyService.startVerify(email: emailText) {[weak self] result, error in
+            if result {
+                self?.email = emailText
+            } else {
+                self?.email = nil
+            }
         }
     }
     
     @objc func verifyAction(sender: Any) {
+//        let emailText = "slzhouzsl@163.com"
+//        let code = "ZGZBSA"
+        guard let emailText = emailTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !emailText.isEmpty else {
+            return
+        }
+        if !emailText.isVaildEmail() {
+            return
+        }
         
+        guard let code = codeTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !code.isEmpty else {
+            return
+        }
+        LockyService.verify(email: emailText, code: code) {[weak self] tokenModel in
+            guard let tokenModel = tokenModel else {
+                return
+            }
+            if tokenModel.token.isEmpty {
+                return
+            } else {
+                
+            }
+        }
     }
     
     @objc func getMobileAction(sender: Any) {

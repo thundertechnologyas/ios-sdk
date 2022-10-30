@@ -8,7 +8,7 @@
 import Foundation
 
 open class Network {
-    func decode<T: Decodable>(type: T.Type, data: Data) throws -> T {
+    class func decode<T: Decodable>(type: T.Type, data: Data) throws -> T {
         let jsonDecodable = JSONDecoder()
         return try jsonDecodable.decode(type, from: data)
     }
