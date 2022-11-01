@@ -42,7 +42,8 @@ public class LockyView: UIView {
     private var email: String?
     private var tokenModel: TokenModel?
     private var mobileKeyList: [LockyMobileKey]?
-    private var locksList: [LockyMobile]?
+    private var locksList = [LockyMobile]()
+    private var locksView = UIView()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -280,9 +281,20 @@ private extension LockyView {
         
         getLocksButton.addTarget(self, action: #selector(getLockAction), for: .touchUpInside)
         
+        scrollView.addSubview(locksView)
+        locksView.layer.cornerRadius = 4
+        locksView.layer.masksToBounds = true
+        locksView.backgroundColor = Color_Hex(0xF8F8F8)
+        locksView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(15)
+            make.top.equalTo(getLocksButton.snp.bottom).offset(15)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(0)
+        }
+        
         updateConstraintsIfNeeded()
         layoutIfNeeded()
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y)
+        scrollView.contentSize = CGSize(width: Screen_Width, height: 54 + getLocksButton.frame.origin.y)
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEdit)))
     }
@@ -347,9 +359,44 @@ private extension LockyView {
         guard let mobileKeyList = mobileKeyList else {
             return
         }
-        LockyService.getAllLocks(mobileKeyList) {[weak self] locksList in
-            self?.locksList = locksList
+        var needRefresh = true
+        LockyService.getAllLocks(mobileKeyList) {[weak self] locks in
+            if needRefresh {
+                self?.locksList.removeAll()
+                self?.customLocksView(needRefresh: true, locks: locks)
+                self?.locksList.append(contentsOf: locks)
+                needRefresh = false
+            } else {
+                self?.customLocksView(needRefresh: false, locks: locks)
+                self?.locksList.append(contentsOf: locks)
+            }
         }
+    }
+    
+    func customLocksView (needRefresh: Bool, locks: [LockyMobile]) {
+        if needRefresh {
+            for view in locksView.subviews {
+                view.removeFromSuperview()
+            }
+        }
+        var yOrigin = locksList.count * 44
+        for k in locks.indices {
+            let lock = locks[k]
+            let cView = UIView(frame: CGRect(x: 0, y: yOrigin, width: Int(Screen_Width - 30), height: 44))
+            let nameLabel = UILabel(frame: CGRect(x: 15, y: 5, width: Screen_Width - 60, height: 34))
+            nameLabel.text = lock.name
+            nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+            nameLabel.textColor = .black
+            nameLabel.backgroundColor = .clear
+            cView.addSubview(nameLabel)
+            cView.tag = k + 1
+            locksView.addSubview(cView)
+            yOrigin += 44
+        }
+        locksView.snp.updateConstraints() { make in
+            make.height.equalTo(yOrigin)
+        }
+        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y + CGFloat(yOrigin) + 20)
     }
 }
 

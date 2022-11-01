@@ -84,7 +84,7 @@ public class LockyService {
         }
     }
     
-    class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockyMobile]?) -> Void)) {
+    class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockyMobile]) -> Void)) {
         
         for mobile in mobileKeys {
             var headers = [String: String]()
@@ -105,7 +105,7 @@ public class LockyService {
                             lock.tenantId = mobile.tenantId
                             dataArray.append(lock)
                         }
-                        completion(dataArray)  
+                        completion(dataArray)
                     } catch {
                         
                     }
