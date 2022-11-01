@@ -54,7 +54,7 @@ public class LockyService {
         }
     }
     
-    class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockyMobileKey]?, String?) -> Void)) {
+    class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockyMobileKey]?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["token"] = token
@@ -64,7 +64,7 @@ public class LockyService {
                    encoding: URLEncoding.default,
                    headers: nil).responseData { response in
             guard let data = response.data else {
-                completion(false, nil, nil)
+                completion(false, nil)
                 return
             }
             do {
@@ -75,37 +75,45 @@ public class LockyService {
                     let token = (toCheck as NSString).substring(from: 24)
                     dataArray.append(LockyMobileKey(token: token, tenantId: tenantId))
                 }
-                let jsonString = try Network.encode(from: tenantList)
-                completion(false, dataArray, jsonString)
+//                let jsonString = try Network.encode(from: tenantList)
+                completion(true, dataArray)
                 
             } catch {
-                completion(false, nil, nil)
+                completion(false, nil)
             }
         }
     }
     
-    func getAllLocks(mobileKeys: [LockyMobileKey], completion: @escaping ((Bool?,  Error?) -> Void)) {
+    class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockyMobile]?) -> Void)) {
         
         for mobile in mobileKeys {
-            var params = [String: Any]()
-            params["domain"] = Environment.domain
             var headers = [String: String]()
             headers["tenantId"] = mobile.tenantId
             headers["token"] = mobile.token
-            headers["Content-Type"] = "application/json"
             let httpHeaders = HTTPHeaders(headers)
-            AF.request(Environment.endpoint + "/lockyapi/mobilekey/devices",
+            AF.request(Environment.endpoint + "lockyapi/mobilekey/devices",
                        method: .get,
-                       parameters: params,
-                       encoding: JSONEncoding.default,
+                       parameters: nil,
+                       encoding: URLEncoding.default,
                        headers: httpHeaders).responseData { response in
-                guard let locksText = response.data else {
-                    completion(false, nil)
-                    return
+                if let locksData = response.data {
+                    do {
+                        var dataArray:[LockyMobile] = []
+                        let lockList = try Network.decode(type: [LockyMobile].self, data: locksData)
+                        for var lock in lockList {
+                            lock.token = mobile.token
+                            lock.tenantId = mobile.tenantId
+                            dataArray.append(lock)
+                        }
+                        completion(dataArray)  
+                    } catch {
+                        
+                    }
                 }
-                
             }
         }
+        
+        
     }
     
     func downloadNormalState(deviceId: String, mobileKey: LockyMobileKey, completion: @escaping ((Result<String?,Error>) -> Void)) {

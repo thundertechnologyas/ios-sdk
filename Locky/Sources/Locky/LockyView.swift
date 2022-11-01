@@ -41,6 +41,8 @@ public class LockyView: UIView {
     private let getLocksButton = UIButton()
     private var email: String?
     private var tokenModel: TokenModel?
+    private var mobileKeyList: [LockyMobileKey]?
+    private var locksList: [LockyMobile]?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -214,7 +216,7 @@ private extension LockyView {
         tokenTextField.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(tokenHintLabel.snp.bottom).offset(15)
-            make.width.equalTo(200)
+            make.width.equalTo(300)
             make.height.equalTo(24)
         }
         
@@ -281,6 +283,12 @@ private extension LockyView {
         updateConstraintsIfNeeded()
         layoutIfNeeded()
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y)
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEdit)))
+    }
+    
+    @objc func endEdit() {
+        endEditing(true)
     }
     
     @objc func startEmailAction(sender: Any) {
@@ -300,15 +308,13 @@ private extension LockyView {
     }
     
     @objc func verifyAction(sender: Any) {
-//        let emailText = "slzhouzsl@163.com"
-//        let code = "ZGZBSA"
         guard let emailText = emailTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !emailText.isEmpty else {
             return
         }
         if !emailText.isVaildEmail() {
             return
         }
-        
+
         guard let code = codeTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !code.isEmpty else {
             return
         }
@@ -329,13 +335,21 @@ private extension LockyView {
         guard let token = tokenModel, !token.token.isEmpty else {
             return
         }
-        LockyService.getMobileKeys(token: token.token) { mobileKeys, code, error in
-            
+        
+        LockyService.getMobileKeys(token: token.token) {[weak self] result, tenantList in
+            if result {
+                self?.mobileKeyList = tenantList
+            }
         }
     }
     
     @objc func getLockAction(sender: Any) {
-        
+        guard let mobileKeyList = mobileKeyList else {
+            return
+        }
+        LockyService.getAllLocks(mobileKeyList) {[weak self] locksList in
+            self?.locksList = locksList
+        }
     }
 }
 
