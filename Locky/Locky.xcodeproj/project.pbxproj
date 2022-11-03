@@ -32,6 +32,10 @@
 		48954837290EB4850000D4D0 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48954836290EB4850000D4D0 /* TokenModel.swift */; };
 		48954843291026F10000D4D0 /* LockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48954842291026F10000D4D0 /* LockModel.swift */; };
 		48E6AFDA2911979D00AF3668 /* UIDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E6AFD92911979D00AF3668 /* UIDefine.swift */; };
+		48ED33782914154700AC2BE3 /* LockyBLEProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ED33772914154700AC2BE3 /* LockyBLEProtocol.swift */; };
+		48ED337A291416EB00AC2BE3 /* UITextField+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ED3379291416EB00AC2BE3 /* UITextField+Placeholder.swift */; };
+		48ED337C29141B4F00AC2BE3 /* LockyDeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ED337B29141B4F00AC2BE3 /* LockyDeviceModel.swift */; };
+		48ED337E2914250A00AC2BE3 /* Data+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ED337D2914250A00AC2BE3 /* Data+String.swift */; };
 		OBJ_22 /* LockyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* LockyView.swift */; };
 		OBJ_29 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_40 /* LockyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* LockyTests.swift */; };
@@ -65,6 +69,10 @@
 		48954836290EB4850000D4D0 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		48954842291026F10000D4D0 /* LockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockModel.swift; sourceTree = "<group>"; };
 		48E6AFD92911979D00AF3668 /* UIDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDefine.swift; sourceTree = "<group>"; };
+		48ED33772914154700AC2BE3 /* LockyBLEProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyBLEProtocol.swift; sourceTree = "<group>"; };
+		48ED3379291416EB00AC2BE3 /* UITextField+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Placeholder.swift"; sourceTree = "<group>"; };
+		48ED337B29141B4F00AC2BE3 /* LockyDeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyDeviceModel.swift; sourceTree = "<group>"; };
+		48ED337D2914250A00AC2BE3 /* Data+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+String.swift"; sourceTree = "<group>"; };
 		OBJ_12 /* LockyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* LockyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyView.swift; sourceTree = "<group>"; };
@@ -96,9 +104,11 @@
 		4895482F290E6A3B0000D4D0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				48ED3379291416EB00AC2BE3 /* UITextField+Placeholder.swift */,
 				48E6AFD92911979D00AF3668 /* UIDefine.swift */,
 				485D02822906EE07000DCB94 /* Network.swift */,
 				48954830290E6A490000D4D0 /* String+Extensions.swift */,
+				48ED337D2914250A00AC2BE3 /* Data+String.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -109,6 +119,7 @@
 				485D053E29082FFB000DCB94 /* LockyMobileKey.swift */,
 				48954836290EB4850000D4D0 /* TokenModel.swift */,
 				48954842291026F10000D4D0 /* LockModel.swift */,
+				48ED337B29141B4F00AC2BE3 /* LockyDeviceModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -174,6 +185,7 @@
 				485D027E2906EA00000DCB94 /* LockyService.swift */,
 				485D02802906EA1A000DCB94 /* Environment.swift */,
 				485D02892906F41B000DCB94 /* LockyBLEHelper.swift */,
+				48ED33772914154700AC2BE3 /* LockyBLEProtocol.swift */,
 			);
 			name = Locky;
 			path = Sources/Locky;
@@ -271,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				48ED33782914154700AC2BE3 /* LockyBLEProtocol.swift in Sources */,
 				48954843291026F10000D4D0 /* LockModel.swift in Sources */,
 				485D027F2906EA00000DCB94 /* LockyService.swift in Sources */,
 				48E6AFDA2911979D00AF3668 /* UIDefine.swift in Sources */,
@@ -278,8 +291,11 @@
 				485D02812906EA1A000DCB94 /* Environment.swift in Sources */,
 				485D02832906EE07000DCB94 /* Network.swift in Sources */,
 				485D053F29082FFB000DCB94 /* LockyMobileKey.swift in Sources */,
+				48ED337E2914250A00AC2BE3 /* Data+String.swift in Sources */,
 				48954837290EB4850000D4D0 /* TokenModel.swift in Sources */,
+				48ED337A291416EB00AC2BE3 /* UITextField+Placeholder.swift in Sources */,
 				OBJ_22 /* LockyView.swift in Sources */,
+				48ED337C29141B4F00AC2BE3 /* LockyDeviceModel.swift in Sources */,
 				485D028A2906F41B000DCB94 /* LockyBLEHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

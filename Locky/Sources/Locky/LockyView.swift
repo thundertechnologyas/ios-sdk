@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import CoreBluetooth
 
 public class LockyView: UIView {
     private let scrollView = UIScrollView()
@@ -42,8 +43,10 @@ public class LockyView: UIView {
     private var email: String?
     private var tokenModel: TokenModel?
     private var mobileKeyList: [LockyMobileKey]?
+    private var peripherals: [CBPeripheral]?
     private var locksList = [LockyMobile]()
     private var locksView = UIView()
+    private var deviceList: [LockyDeviceModel]?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -347,7 +350,7 @@ private extension LockyView {
         guard let token = tokenModel, !token.token.isEmpty else {
             return
         }
-        
+//        let token1 = "7c6622d3-72cf-44b6-9f05-46614f54df88"
         LockyService.getMobileKeys(token: token.token) {[weak self] result, tenantList in
             if result {
                 self?.mobileKeyList = tenantList
@@ -356,6 +359,7 @@ private extension LockyView {
     }
     
     @objc func getLockAction(sender: Any) {
+        
         guard let mobileKeyList = mobileKeyList else {
             return
         }
@@ -371,6 +375,7 @@ private extension LockyView {
                 self?.locksList.append(contentsOf: locks)
             }
         }
+        LockyBLEHelper.share.delegate = self
     }
     
     func customLocksView (needRefresh: Bool, locks: [LockyMobile]) {
@@ -390,6 +395,15 @@ private extension LockyView {
             nameLabel.backgroundColor = .clear
             cView.addSubview(nameLabel)
             cView.tag = k + 1
+            cView.backgroundColor = .clear
+            if let deviceList = deviceList {
+                for item in deviceList {
+                    if item.deviceId == lock.id {
+                        cView.backgroundColor = .yellow
+                        break
+                    }
+                }
+            }
             locksView.addSubview(cView)
             yOrigin += 44
         }
@@ -398,15 +412,27 @@ private extension LockyView {
         }
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y + CGFloat(yOrigin) + 20)
     }
-}
-
-extension UITextField{
-   @IBInspectable var placeHolderColor: UIColor? {
-        get {
-            return self.placeHolderColor
-        }
-        set {
-            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[NSAttributedString.Key.foregroundColor: newValue!])
+    
+    private func updateLockStatus(_ devices: [LockyDeviceModel]) {
+        deviceList = devices
+        for k in locksList.indices {
+            let lock = locksList[k]
+            let cView = locksView.viewWithTag(k + 1)
+            if let deviceList = deviceList {
+                for item in deviceList {
+                    if item.deviceId == lock.id {
+                        cView!.backgroundColor = .yellow
+                        break
+                    }
+                }
+            }
         }
     }
 }
+
+extension LockyView: LockyBLEProtocol {
+    public func didDiscover (_ devices: [LockyDeviceModel]) {
+        updateLockStatus(devices)
+    }
+}
+

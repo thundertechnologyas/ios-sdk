@@ -12,14 +12,13 @@ public class LockyBLEHelper: NSObject {
 
     public static var share =  LockyBLEHelper()
     
-    lazy var centralManager:CBCentralManager = {
-        let central = CBCentralManager.init(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey : false])
-        return central
-    }()
+    public var delegate: LockyBLEProtocol?
+    
+    var centralManager:CBCentralManager!
     
     var connectedPeripheral:CBPeripheral?
     //discoverd peripherals array
-    var discoveredPeripherals :[CBPeripheral?] = []
+    var discoveredDevices :[LockyDeviceModel] = []
 
     // CBCService UUID
     let confirmServiceUUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
@@ -30,14 +29,23 @@ public class LockyBLEHelper: NSObject {
     let characteristicUUIDStringForRead = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
 
     private override init() {
-        
+        super.init()
+        self.centralManager = CBCentralManager.init(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey : false])
     }
     
     func scanForPeripherals () {
         self.stopScan()
+        if centralManager.state == .poweredOn {
+            doScan()
+        }
+    }
+    
+    private func doScan() {
+        self.stopScan()
         self.centralManager.scanForPeripherals(withServices: [CBUUID(string: confirmServiceUUID)], options: nil)
     }
-    ///连接外设
+    
+    ///connect peripheral
     func connect(peripheral: CBPeripheral) {
         self.connectedPeripheral = peripheral
         centralManager.connect(self.connectedPeripheral!, options: nil)
@@ -60,6 +68,7 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
             print("CBCentralManager state:", "unauthorized")
         case .poweredOn:
             print("CBCentralManager state:", "poweredOn")
+            self.centralManager.scanForPeripherals(withServices: [CBUUID(string: confirmServiceUUID)])
 //            central.scanForPeripherals(withServices: nil, options: nil)
         case .poweredOff:
             print("CBCentralManager state:", "poweredOff")
@@ -70,9 +79,41 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
     ///discover peripheral
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         //add to discovered peripheral list
-        if !discoveredPeripherals.contains(peripheral) {
-            discoveredPeripherals.append(peripheral)
+        //<CBPeripheral: 0x2826683c0, identifier = 5ACB78C4-A44C-A912-6764-6D4387548D1D, name = TT, mtu = 0, state = disconnected>
+        
+        if let device = parsePeripheral(peripheral, advertisementData: advertisementData, rssi: RSSI) {
+            for item in discoveredDevices {
+                if item.deviceId == device.deviceId {
+                    return
+                }
+            }
+            discoveredDevices.append(device)
+            delegate?.didDiscover(discoveredDevices)
         }
+    }
+    
+    private func parsePeripheral(_ peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) -> LockyDeviceModel? {
+        guard let name = peripheral.name, name.contains("TT") else {
+            return nil
+        }
+        
+        guard let advertise = advertisementData["kCBAdvDataManufacturerData"] else {
+            return nil
+        }
+        var device = LockyDeviceModel()
+        
+        device.bleId = peripheral.identifier.uuidString
+        let advertiseStr = (advertise as! Data).hexadecimal()
+        if advertiseStr.count >= 30 {
+            device.deviceId = advertiseStr.sub(from: 6, to: 30)!
+        }
+        device.lastSeen = Date()
+        let hasData = advertiseStr.sub(from: 4, to: 6)
+        if hasData == "01" {
+            device.hasData = true
+        }
+        device.rssi = RSSI.floatValue
+        return device
     }
     
     ///did connect
