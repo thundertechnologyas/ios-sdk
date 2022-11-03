@@ -116,12 +116,22 @@
 		48954838290EB7EF0000D4D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				485D02802906EA1A000DCB94 /* Environment.swift */,
 				485D053E29082FFB000DCB94 /* LockyMobileKey.swift */,
 				48954836290EB4850000D4D0 /* TokenModel.swift */,
 				48954842291026F10000D4D0 /* LockModel.swift */,
 				48ED337B29141B4F00AC2BE3 /* LockyDeviceModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		48ED337F29143BCA00AC2BE3 /* BLE */ = {
+			isa = PBXGroup;
+			children = (
+				485D02892906F41B000DCB94 /* LockyBLEHelper.swift */,
+				48ED33772914154700AC2BE3 /* LockyBLEProtocol.swift */,
+			);
+			path = BLE;
 			sourceTree = "<group>";
 		};
 		OBJ_10 /* Tests */ = {
@@ -179,13 +189,11 @@
 		OBJ_8 /* Locky */ = {
 			isa = PBXGroup;
 			children = (
+				48ED337F29143BCA00AC2BE3 /* BLE */,
 				48954838290EB7EF0000D4D0 /* Model */,
 				4895482F290E6A3B0000D4D0 /* Utils */,
 				OBJ_9 /* LockyView.swift */,
 				485D027E2906EA00000DCB94 /* LockyService.swift */,
-				485D02802906EA1A000DCB94 /* Environment.swift */,
-				485D02892906F41B000DCB94 /* LockyBLEHelper.swift */,
-				48ED33772914154700AC2BE3 /* LockyBLEProtocol.swift */,
 			);
 			name = Locky;
 			path = Sources/Locky;
