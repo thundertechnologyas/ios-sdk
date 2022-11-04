@@ -169,14 +169,14 @@ public class LockyService {
                 completion(nil)
                 return
             }
-            
             do {
-                let package = try Network.decode(type: String.self, data: data)
-//                let jsonString = try Network.encode(from: tenantList)
-                completion(package)
+                let model = try Network.decode(type: LockyPackage.self, data: data)
+                completion(model.data)
             } catch {
                 completion(nil)
             }
+//            let package = String(data: data, encoding: .utf8)
+//            completion(package)
         }
     }
 }

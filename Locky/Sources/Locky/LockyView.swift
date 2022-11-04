@@ -48,6 +48,7 @@ public class LockyView: UIView {
     private var locksView = UIView()
     private var deviceList: [LockyDeviceModel]?
     private var connectedDevice: LockyDeviceModel?
+    private var packageSignalType: PackageSignalType = .PulseOpen
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -380,34 +381,17 @@ private extension LockyView {
     }
     
     func customLocksView (needRefresh: Bool, locks: [LockyMobile]) {
+        let tagDelta = self.locksList.count
         if needRefresh {
             for view in locksView.subviews {
                 view.removeFromSuperview()
             }
         }
         var yOrigin = locksList.count * 44
+        
         for k in locks.indices {
             let lock = locks[k]
-            let cView = UIView(frame: CGRect(x: 0, y: yOrigin, width: Int(Screen_Width - 30), height: 44))
-            let nameLabel = UILabel(frame: CGRect(x: 15, y: 5, width: Screen_Width - 260, height: 34))
-            nameLabel.text = lock.name
-            nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
-            nameLabel.textColor = .black
-            nameLabel.backgroundColor = .clear
-            cView.addSubview(nameLabel)
-            cView.tag = k + 1
-            cView.backgroundColor = .clear
-            if let deviceList = deviceList {
-                for item in deviceList {
-                    if item.deviceId == lock.id {
-                        cView.backgroundColor = .yellow
-                        let connectButton = UIButton(frame: CGRect(x: Screen_Width - 215, y: 5, width: 200, height: 34))
-                        cView.addSubview(connectButton)
-                        connectButton.addTarget(self, action: #selector(connectDevice), for: .touchUpInside)
-                        break
-                    }
-                }
-            }
+            let cView = customLockItemView(lock: lock, tag: k + 1 + tagDelta, frame: CGRect(x: 0, y: yOrigin, width: Int(Screen_Width - 30), height: 44))
             locksView.addSubview(cView)
             yOrigin += 44
         }
@@ -415,6 +399,36 @@ private extension LockyView {
             make.height.equalTo(yOrigin)
         }
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y + CGFloat(yOrigin) + 20)
+    }
+    
+    private func customLockItemView(lock: LockyMobile, tag: Int, frame: CGRect)->UIView {
+        let cView = UIView(frame: frame)
+        let nameLabel = UILabel(frame: CGRect(x: 15, y: 5, width: Screen_Width - 230, height: 34))
+        nameLabel.text = lock.name
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        nameLabel.textColor = .black
+        nameLabel.backgroundColor = .clear
+        cView.addSubview(nameLabel)
+        cView.tag = tag
+        cView.backgroundColor = .clear
+        if let deviceList = deviceList {
+            for item in deviceList {
+                if item.deviceId == lock.id {
+                    cView.backgroundColor = .yellow
+                    let connectButton = UIButton(frame: CGRect(x: Screen_Width - 200, y: 5, width: 155, height: 34))
+                    cView.addSubview(connectButton)
+                    connectButton.layer.borderWidth = 1.0
+                    connectButton.layer.borderColor = UIColor.gray.cgColor
+                    connectButton.backgroundColor = .white
+                    connectButton.setTitle("connect", for: .normal)
+                    connectButton.setTitleColor(.gray, for: .normal)
+                    connectButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+                    connectButton.addTarget(self, action: #selector(connectDevice), for: .touchUpInside)
+                    break
+                }
+            }
+        }
+        return cView
     }
     
     private func updateLockStatus(_ devices: [LockyDeviceModel]) {
@@ -440,6 +454,7 @@ private extension LockyView {
         guard let deviceList = deviceList else {
             return
         }
+        packageSignalType = .PulseOpen
         for device in deviceList {
             if lock.id == device.deviceId {
                 if let connectedDevice = connectedDevice {
@@ -471,7 +486,10 @@ extension LockyView: LockyBLEProtocol {
         guard let lock = getLockFromDevice(device) else {
             return
         }
-        LockyService.downloadPackage(token: lock.token!, deviceId: device.deviceId, tenantId: lock.tenantId!, type: .PulseOpen) { package in
+        LockyService.downloadPackage(token: lock.token!, deviceId: device.deviceId, tenantId: lock.tenantId!, type: packageSignalType) {[weak self] package in
+            if self?.packageSignalType == .PulseOpen {
+                
+            }
             
         }
     }
