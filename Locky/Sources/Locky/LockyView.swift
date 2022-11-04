@@ -47,6 +47,7 @@ public class LockyView: UIView {
     private var locksList = [LockyMobile]()
     private var locksView = UIView()
     private var deviceList: [LockyDeviceModel]?
+    private var connectedDevice: LockyDeviceModel?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -388,7 +389,7 @@ private extension LockyView {
         for k in locks.indices {
             let lock = locks[k]
             let cView = UIView(frame: CGRect(x: 0, y: yOrigin, width: Int(Screen_Width - 30), height: 44))
-            let nameLabel = UILabel(frame: CGRect(x: 15, y: 5, width: Screen_Width - 60, height: 34))
+            let nameLabel = UILabel(frame: CGRect(x: 15, y: 5, width: Screen_Width - 260, height: 34))
             nameLabel.text = lock.name
             nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
             nameLabel.textColor = .black
@@ -400,6 +401,9 @@ private extension LockyView {
                 for item in deviceList {
                     if item.deviceId == lock.id {
                         cView.backgroundColor = .yellow
+                        let connectButton = UIButton(frame: CGRect(x: Screen_Width - 215, y: 5, width: 200, height: 34))
+                        cView.addSubview(connectButton)
+                        connectButton.addTarget(self, action: #selector(connectDevice), for: .touchUpInside)
                         break
                     }
                 }
@@ -428,11 +432,62 @@ private extension LockyView {
             }
         }
     }
+    
+    @objc func connectDevice(sender: UIButton) {
+        let superView = sender.superview
+        let tag = superView!.tag - 1
+        let lock = locksList[tag]
+        guard let deviceList = deviceList else {
+            return
+        }
+        for device in deviceList {
+            if lock.id == device.deviceId {
+                if let connectedDevice = connectedDevice {
+                   if connectedDevice.deviceId == device.deviceId {
+                       
+                   } else {
+                       LockyBLEHelper.share.disconnect(device: device)
+                       LockyBLEHelper.share.connect(device: device)
+                       return
+                   }
+                } else {
+                    LockyBLEHelper.share.connect(device: device)
+                    return
+                }
+                
+            }
+        }
+    }
+    
 }
 
 extension LockyView: LockyBLEProtocol {
     public func didDiscover (_ devices: [LockyDeviceModel]) {
         updateLockStatus(devices)
     }
+    
+    public func didConnect(device: LockyDeviceModel) {
+        connectedDevice = device
+        guard let lock = getLockFromDevice(device) else {
+            return
+        }
+        LockyService.downloadPackage(token: lock.token!, deviceId: device.deviceId, tenantId: lock.tenantId!, type: .PulseOpen) { package in
+            
+        }
+    }
+    
+    public func didDisconnect (device: LockyDeviceModel) {
+        connectedDevice = nil
+    }
 }
 
+extension LockyView {
+    func getLockFromDevice(_ device: LockyDeviceModel) -> LockyMobile? {
+        for lock in locksList {
+            if lock.id == device.deviceId {
+                return lock;
+            }
+        }
+        return nil
+    }
+}

@@ -19,7 +19,8 @@ public class LockyBLEHelper: NSObject {
     var connectedPeripheral:CBPeripheral?
     //discoverd peripherals array
     var discoveredDevices :[LockyDeviceModel] = []
-
+    var discoveredPeripherals :[CBPeripheral] = []
+    
     // CBCService UUID
     let confirmServiceUUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
 
@@ -47,8 +48,28 @@ public class LockyBLEHelper: NSObject {
     
     ///connect peripheral
     func connect(peripheral: CBPeripheral) {
-        self.connectedPeripheral = peripheral
-        centralManager.connect(self.connectedPeripheral!, options: nil)
+        centralManager.connect(peripheral, options: nil)
+    }
+    
+    func connect(device: LockyDeviceModel) {
+        guard let peripheral = device.peripheral else {
+            return
+        }
+        if device.peripheral == connectedPeripheral {
+            delegate?.didConnect(device: device)
+            return
+        }
+        connect(peripheral: peripheral)
+    }
+    
+    func disconnect(device: LockyDeviceModel) {
+        guard let peripheral = device.peripheral else {
+            return
+        }
+        if let connectedPeripheral = connectedPeripheral {
+            centralManager.cancelPeripheralConnection(connectedPeripheral)
+        }
+        centralManager.cancelPeripheralConnection(peripheral)
     }
     
     func stopScan() {
@@ -80,12 +101,13 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         //add to discovered peripheral list
         //<CBPeripheral: 0x2826683c0, identifier = 5ACB78C4-A44C-A912-6764-6D4387548D1D, name = TT, mtu = 0, state = disconnected>
+        if !discoveredPeripherals.contains(peripheral) {
+            discoveredPeripherals.append(peripheral)
+        }
         
         if let device = parsePeripheral(peripheral, advertisementData: advertisementData, rssi: RSSI) {
-            for item in discoveredDevices {
-                if item.deviceId == device.deviceId {
-                    return
-                }
+            discoveredDevices.removeAll { item in
+                return item.deviceId == device.deviceId
             }
             discoveredDevices.append(device)
             delegate?.didDiscover(discoveredDevices)
@@ -113,6 +135,7 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
             device.hasData = true
         }
         device.rssi = RSSI.floatValue
+        device.peripheral = peripheral
         return device
     }
     
@@ -120,6 +143,13 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         self.connectedPeripheral = peripheral
         peripheral.delegate = self
+        for item in discoveredDevices {
+            if item.peripheral == peripheral {
+                delegate?.didConnect(device: item)
+                break
+            }
+        }
+        
         //start to find services nil is to find all services
         peripheral.discoverServices(nil)
     }
@@ -131,6 +161,15 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
     
     ///did disconnect
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        if peripheral == connectedPeripheral {
+            connectedPeripheral = nil
+        }
+        for item in discoveredDevices {
+            if item.peripheral == peripheral {
+                delegate?.didDisconnect(device: item)
+                break
+            }
+        }
         print("disconnect")
     }
 }
