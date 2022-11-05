@@ -78,12 +78,13 @@ private extension LockyView {
         if #available(iOS 11.0, *) {
             scrollView.contentInsetAdjustmentBehavior = .never
         }
+        scrollView.isScrollEnabled = true
         addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         scrollView.addSubview(startLabel)
-        startLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        startLabel.font = UIFont.boldSystemFont(ofSize: 18)
         startLabel.textColor = .black
         startLabel.backgroundColor = .clear
         startLabel.text = "Step 1 - Start"
@@ -91,11 +92,11 @@ private extension LockyView {
             make.left.equalToSuperview().offset(15)
             make.top.equalToSuperview().offset(15)
             make.width.equalTo(150)
-            make.height.equalTo(18)
+            make.height.equalTo(20)
         }
         
         scrollView.addSubview(firstHintLabel)
-        firstHintLabel.font = UIFont.systemFont(ofSize: 14)
+        firstHintLabel.font = UIFont.systemFont(ofSize: 16)
         firstHintLabel.text = "First, start with entering your email for logging on to the system."
         firstHintLabel.textColor = .black
         firstHintLabel.backgroundColor = .clear
@@ -107,7 +108,7 @@ private extension LockyView {
         }
 
         scrollView.addSubview(emailTextField)
-        emailTextField.font = UIFont.systemFont(ofSize: 14)
+        emailTextField.font = UIFont.systemFont(ofSize: 16)
         emailTextField.placeholder = "Email"
         emailTextField.textColor = .black
         emailTextField.placeHolderColor = .gray
@@ -119,42 +120,42 @@ private extension LockyView {
         emailTextField.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(firstHintLabel.snp.bottom).offset(15)
-            make.width.equalTo(150)
-            make.height.equalTo(24)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(36)
         }
 
         scrollView.addSubview(startButton)
         startButton.addTarget(self, action: #selector(startEmailAction), for: .touchUpInside)
-
-        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        startButton.setTitleColor(.black, for: .normal)
+        startButton.backgroundColor = Color_Hex(0x008CBA)
+        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        startButton.setTitleColor(.white, for: .normal)
         startButton.backgroundColor = .white
         startButton.layer.cornerRadius = 4
         startButton.layer.borderWidth = 1
         startButton.layer.borderColor = UIColor.gray.cgColor
         startButton.setTitle("Start verification process", for: .normal)
         startButton.snp.makeConstraints { make in
-            make.left.equalTo(emailTextField.snp.right).offset(15)
-            make.top.equalTo(firstHintLabel.snp.bottom).offset(15)
-            make.width.equalTo(200)
-            make.height.equalTo(24)
+            make.left.equalToSuperview().offset(15)
+            make.top.equalTo(emailTextField.snp.bottom).offset(15)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(36)
         }
 
         scrollView.addSubview(verifyLabel)
 
-        verifyLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        verifyLabel.font = UIFont.boldSystemFont(ofSize: 18)
         verifyLabel.text = "Step 2 - Verify"
         verifyLabel.textColor = .black
         verifyLabel.backgroundColor = .clear
         verifyLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
-            make.top.equalTo(emailTextField.snp.bottom).offset(30)
-            make.right.equalToSuperview().offset(-15)
-            make.height.equalTo(18)
+            make.top.equalTo(startButton.snp.bottom).offset(30)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(20)
         }
 
         scrollView.addSubview(verifyHintLabel)
-        verifyHintLabel.font = UIFont.systemFont(ofSize: 14)
+        verifyHintLabel.font = UIFont.systemFont(ofSize: 16)
         verifyHintLabel.textColor = .black
         verifyHintLabel.backgroundColor = .clear
         verifyHintLabel.text = "After running step 1, you will recieve an email with a verification code, enter the code in the field below to logon."
@@ -166,7 +167,7 @@ private extension LockyView {
         }
 
         scrollView.addSubview(codeTextField)
-        codeTextField.font = UIFont.systemFont(ofSize: 14)
+        codeTextField.font = UIFont.systemFont(ofSize: 16)
         codeTextField.placeholder = "Verification code"
         codeTextField.textColor = .black
         codeTextField.placeHolderColor = .gray
@@ -177,30 +178,29 @@ private extension LockyView {
         codeTextField.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(verifyHintLabel.snp.bottom).offset(15)
-            make.width.equalTo(150)
-            make.height.equalTo(24)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(36)
         }
 
         scrollView.addSubview(verifyButton)
-
-        verifyButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        verifyButton.backgroundColor = Color_Hex(0x008CBA)
+        verifyButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         verifyButton.setTitle("Verify", for: .normal)
-        verifyButton.setTitleColor(.black, for: .normal)
-        verifyButton.backgroundColor = .white
+        verifyButton.setTitleColor(.white, for: .normal)
         verifyButton.layer.borderWidth = 1
         verifyButton.layer.borderColor = UIColor.gray.cgColor
         verifyButton.layer.cornerRadius = 4
         verifyButton.snp.makeConstraints { make in
-            make.left.equalTo(codeTextField.snp.right).offset(15)
-            make.top.equalTo(verifyHintLabel.snp.bottom).offset(15)
-            make.width.equalTo(100)
-            make.height.equalTo(24)
+            make.left.equalToSuperview().offset(15)
+            make.top.equalTo(codeTextField.snp.bottom).offset(15)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(36)
         }
         
         verifyButton.addTarget(self, action: #selector(verifyAction), for: .touchUpInside)
 
         scrollView.addSubview(tokenHintLabel)
-        tokenHintLabel.font = UIFont.systemFont(ofSize: 14)
+        tokenHintLabel.font = UIFont.systemFont(ofSize: 16)
         tokenHintLabel.textColor = .black
         tokenHintLabel.backgroundColor = .clear
         
@@ -208,12 +208,12 @@ private extension LockyView {
         tokenHintLabel.numberOfLines = 0
         tokenHintLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
-            make.top.equalTo(codeTextField.snp.bottom).offset(15)
+            make.top.equalTo(verifyButton.snp.bottom).offset(15)
             make.right.equalToSuperview().offset(-15)
         }
 
         scrollView.addSubview(tokenTextField)
-        tokenTextField.font = UIFont.systemFont(ofSize: 14)
+        tokenTextField.font = UIFont.systemFont(ofSize: 16)
         tokenTextField.placeholder = "Token after login"
         tokenTextField.textColor = .black
         tokenTextField.placeHolderColor = .gray
@@ -224,12 +224,12 @@ private extension LockyView {
         tokenTextField.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(tokenHintLabel.snp.bottom).offset(15)
-            make.width.equalTo(300)
-            make.height.equalTo(24)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(36)
         }
         
         scrollView.addSubview(tenansLabel)
-        tenansLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        tenansLabel.font = UIFont.boldSystemFont(ofSize: 16)
         tenansLabel.text = "Login complete, find tenants"
         tenansLabel.numberOfLines = 0
         tenansLabel.textColor = .black
@@ -241,25 +241,25 @@ private extension LockyView {
         }
 
         scrollView.addSubview(getMobileButton)
-
-        getMobileButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        getMobileButton.backgroundColor = Color_Hex(0x008CBA)
+        getMobileButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         getMobileButton.setTitle("Get mobile keys", for: .normal)
-        getMobileButton.setTitleColor(.black, for: .normal)
-        getMobileButton.backgroundColor = .white
+        getMobileButton.setTitleColor(.white, for: .normal)
+        
         getMobileButton.layer.borderWidth = 1
         getMobileButton.layer.borderColor = UIColor.gray.cgColor
         getMobileButton.layer.cornerRadius = 4
         getMobileButton.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(tenansLabel.snp.bottom).offset(15)
-            make.width.equalTo(180)
-            make.height.equalTo(24)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(36)
         }
         
         getMobileButton.addTarget(self, action: #selector(getMobileAction), for: .touchUpInside)
 
         scrollView.addSubview(getLocksLabel)
-        getLocksLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        getLocksLabel.font = UIFont.boldSystemFont(ofSize: 18)
         getLocksLabel.text = "Get all locks"
         getLocksLabel.textColor = .black
         getLocksLabel.backgroundColor = .clear
@@ -267,23 +267,23 @@ private extension LockyView {
         getLocksLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(getMobileButton.snp.bottom).offset(30)
-            make.width.equalTo(180)
+            make.width.equalTo(Screen_Width - 30)
         }
 
         scrollView.addSubview(getLocksButton)
-
-        getLocksButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        getLocksButton.backgroundColor = Color_Hex(0x008CBA)
+        getLocksButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         getLocksButton.setTitle("Get all locks", for: .normal)
-        getLocksButton.setTitleColor(.black, for: .normal)
-        getLocksButton.backgroundColor = .white
+        getLocksButton.setTitleColor(.white, for: .normal)
+        
         getLocksButton.layer.borderWidth = 1
         getLocksButton.layer.borderColor = UIColor.gray.cgColor
         getLocksButton.layer.cornerRadius = 4
         getLocksButton.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(getLocksLabel.snp.bottom).offset(15)
-            make.width.equalTo(180)
-            make.height.equalTo(24)
+            make.width.equalTo(Screen_Width - 30)
+            make.height.equalTo(36)
         }
         
         getLocksButton.addTarget(self, action: #selector(getLockAction), for: .touchUpInside)
@@ -301,10 +301,14 @@ private extension LockyView {
         
         updateConstraintsIfNeeded()
         layoutIfNeeded()
-        scrollView.contentSize = CGSize(width: Screen_Width, height: 54 + getLocksButton.frame.origin.y)
         
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            self.scrollView.contentSize = CGSize(width: Screen_Width, height: 85 + self.getLocksButton.frame.origin.y)
+        }
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEdit)))
     }
+    
+    
     
     @objc func endEdit() {
         endEditing(true)
@@ -354,7 +358,6 @@ private extension LockyView {
         guard let token = tokenModel, !token.token.isEmpty else {
             return
         }
-
         LockyService.getMobileKeys(token: token.token) {[weak self] result, tenantList in
             if result {
                 self?.mobileKeyList = tenantList
@@ -363,7 +366,6 @@ private extension LockyView {
     }
     
     @objc func getLockAction(sender: Any) {
-        
         guard let mobileKeyList = mobileKeyList else {
             return
         }
@@ -400,12 +402,12 @@ private extension LockyView {
         locksView.snp.updateConstraints() { make in
             make.height.equalTo(yOrigin)
         }
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y + CGFloat(yOrigin) + 20)
+        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y + CGFloat(yOrigin) + 52)
     }
     
     private func customLockItemView(lock: LockyMobile, tag: Int, frame: CGRect)->UIView {
         let cView = UIView(frame: frame)
-        let nameLabel = UILabel(frame: CGRect(x: 15, y: 5, width: Screen_Width - 230, height: 34))
+        let nameLabel = UILabel(frame: CGRect(x: 15, y: 5, width: Screen_Width - 200, height: 34))
         nameLabel.text = lock.name
         nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         nameLabel.textColor = .black
@@ -416,14 +418,16 @@ private extension LockyView {
         if let deviceList = deviceList {
             for item in deviceList {
                 if item.deviceId == lock.id {
-                    cView.backgroundColor = .yellow
-                    let connectButton = UIButton(frame: CGRect(x: Screen_Width - 200, y: 5, width: 155, height: 34))
+                    cView.backgroundColor = Color_Hex(0xF8F8F8)
+                    cView.layer.cornerRadius = 4
+                    let connectButton = UIButton(frame: CGRect(x: Screen_Width - 150, y: 5, width: 105, height: 34))
                     cView.addSubview(connectButton)
                     connectButton.layer.borderWidth = 1.0
+                    connectButton.layer.cornerRadius = 4
                     connectButton.layer.borderColor = UIColor.gray.cgColor
-                    connectButton.backgroundColor = .white
-                    connectButton.setTitle("connect", for: .normal)
-                    connectButton.setTitleColor(.gray, for: .normal)
+                    connectButton.backgroundColor = Color_Hex(0x008CBA)
+                    connectButton.setTitle("Pulse open", for: .normal)
+                    connectButton.setTitleColor(.white, for: .normal)
                     connectButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
                     connectButton.addTarget(self, action: #selector(connectDevice), for: .touchUpInside)
                     break

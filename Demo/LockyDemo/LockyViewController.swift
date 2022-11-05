@@ -10,7 +10,7 @@ import Locky
 
 class LockyViewController: UIViewController {
     private lazy var lockyView: LockyView = {
-        let view = LockyView(frame: CGRect(x: 0, y: 24, width: UIScreen.main.bounds.size.width, height:  UIScreen.main.bounds.size.height - 56))
+        let view = LockyView(frame: CGRect(x: 0, y: 24, width: UIScreen.main.bounds.size.width, height:  UIScreen.main.bounds.size.height - 24))
         return view
     }()
 
@@ -20,7 +20,7 @@ class LockyViewController: UIViewController {
     }
 }
 
-private extension LockyViewController {
+extension LockyViewController {
     func createSubviews() {
         view.backgroundColor = .white
         view.addSubview(lockyView)

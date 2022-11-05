@@ -226,7 +226,7 @@ extension LockyBLEHelper:CBPeripheralDelegate{
                 let data = Data(bytes: byte, count: 1)
                 self.connectedPeripheral!.writeValue(data, for: self.confirmCharacteristic, type: CBCharacteristicWriteType.withResponse)
             }
-            if propertie == .notify && characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForRead)) {
+            if (propertie == .notify || propertie == .read) && characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForRead)) {
                 peripheral.setNotifyValue(true, for: characteristic)
             }
         }
@@ -244,7 +244,7 @@ extension LockyBLEHelper:CBPeripheralDelegate{
         if let data = characteristic.value {
             let base64Str = data.base64EncodedString()
             delegate?.didRead(data: base64Str)
-            print(base64Str)
+            print("base64Str:", base64Str)
         }
     }
     
