@@ -53,6 +53,7 @@ public class LockyView: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        LockyBLEHelper.share.delegate = self
         createSubviews()
     }
     
@@ -378,7 +379,7 @@ private extension LockyView {
                 self?.locksList.append(contentsOf: locks)
             }
         }
-        LockyBLEHelper.share.delegate = self
+        LockyBLEHelper.share.scanForPeripherals()
     }
     
     func customLocksView (needRefresh: Bool, locks: [LockyMobile]) {

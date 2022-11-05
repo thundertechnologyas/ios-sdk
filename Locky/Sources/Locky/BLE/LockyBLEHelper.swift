@@ -42,7 +42,6 @@ public class LockyBLEHelper: NSObject {
     }
     
     private func doScan() {
-        self.stopScan()
         self.centralManager.scanForPeripherals(withServices: [CBUUID(string: confirmServiceUUID)], options: nil)
     }
     
@@ -73,7 +72,9 @@ public class LockyBLEHelper: NSObject {
     }
     
     func stopScan() {
-        centralManager.stopScan()
+        if centralManager.isScanning {
+            centralManager.stopScan()
+        }
     }
     
     func writeData(device: LockyDeviceModel, data: Data) {
@@ -104,8 +105,6 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
             print("CBCentralManager state:", "unauthorized")
         case .poweredOn:
             print("CBCentralManager state:", "poweredOn")
-            self.centralManager.scanForPeripherals(withServices: [CBUUID(string: confirmServiceUUID)])
-//            central.scanForPeripherals(withServices: nil, options: nil)
         case .poweredOff:
             print("CBCentralManager state:", "poweredOff")
         default:
