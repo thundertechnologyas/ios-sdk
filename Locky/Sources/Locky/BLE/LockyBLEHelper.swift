@@ -75,6 +75,21 @@ public class LockyBLEHelper: NSObject {
     func stopScan() {
         centralManager.stopScan()
     }
+    
+    func writeData(device: LockyDeviceModel, data: Data) {
+        guard let peripheral = device.peripheral else {
+            return
+        }
+        for service in peripheral.services ?? [] {
+            for characteristic in service.characteristics ?? [] {
+                if characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForWrite)) {
+                    peripheral.writeValue(data, for: characteristic, type: .withResponse)
+                    return
+                }
+            }
+            
+        }
+    }
 }
 extension LockyBLEHelper: CBCentralManagerDelegate{
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -178,59 +193,72 @@ extension LockyBLEHelper:CBPeripheralDelegate{
     
     ///Discover Services
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        if error != nil {
+        if let _ = error {
             return
-            //error occurs
         }
         
+        let characteristics = [CBUUID(string: characteristicUUIDStringForRead), CBUUID(string: characteristicUUIDStringForWrite)]
         for service in peripheral.services ?? [] {
             if service.uuid.uuidString == confirmServiceUUID {
-                peripheral.discoverCharacteristics(nil, for: service)
+                peripheral.discoverCharacteristics(characteristics, for: service)
             }
         }
     }
 
     /// find characteristics
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        if error != nil{
-            print(error!.localizedDescription)
+        
+        if let _ = error {
             return
         }
         
         for characteristic in service.characteristics ?? [] {
+            
+            if !service.uuid.isEqual(CBUUID(string: confirmServiceUUID)) {
+                continue
+            }
+            
             let propertie = characteristic.properties
 
-            if propertie == CBCharacteristicProperties.write {
+            if propertie == CBCharacteristicProperties.write && characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForWrite))  {
                 self.confirmCharacteristic = characteristic
                 //写入
                 let byte:[UInt8] = [0xAA]
                 let data = Data(bytes: byte, count: 1)
                 self.connectedPeripheral!.writeValue(data, for: self.confirmCharacteristic, type: CBCharacteristicWriteType.withResponse)
             }
-            if propertie == CBCharacteristicProperties.read {
-                peripheral.readValue(for: characteristic)
+            if propertie == .notify && characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForRead)) {
+                peripheral.setNotifyValue(true, for: characteristic)
             }
         }
     }
     
     //MARK: - write data if success
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        if error != nil {
-            print(error?.localizedDescription as Any )
-            return
-        }else{
-            
-        }
+        delegate?.didWrite(error: error)
     }
     
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        if error != nil {
-            print(error!.localizedDescription)
+        if let _ = error {
+            return
+        }
+        if let data = characteristic.value {
+            let base64Str = data.base64EncodedString()
+            delegate?.didRead(data: base64Str)
+            print(base64Str)
+        }
+    }
+    
+    public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor descriptor: CBDescriptor, error: Error?) {
+        if let _ = error {
+            return
         }
     }
     
     public func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
-        
+        if let _ = error {
+            return
+        }
     }
 
 }

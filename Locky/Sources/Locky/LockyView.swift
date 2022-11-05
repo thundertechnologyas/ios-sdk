@@ -48,6 +48,7 @@ public class LockyView: UIView {
     private var locksView = UIView()
     private var deviceList: [LockyDeviceModel]?
     private var connectedDevice: LockyDeviceModel?
+    private var connectedLock: LockyMobile?
     private var packageSignalType: PackageSignalType = .PulseOpen
     
     public override init(frame: CGRect) {
@@ -352,7 +353,7 @@ private extension LockyView {
         guard let token = tokenModel, !token.token.isEmpty else {
             return
         }
-//        let token1 = "7c6622d3-72cf-44b6-9f05-46614f54df88"
+
         LockyService.getMobileKeys(token: token.token) {[weak self] result, tenantList in
             if result {
                 self?.mobileKeyList = tenantList
@@ -486,16 +487,39 @@ extension LockyView: LockyBLEProtocol {
         guard let lock = getLockFromDevice(device) else {
             return
         }
+        connectedLock = lock
         LockyService.downloadPackage(token: lock.token!, deviceId: device.deviceId, tenantId: lock.tenantId!, type: packageSignalType) {[weak self] package in
-            if self?.packageSignalType == .PulseOpen {
-                
+            guard let package = package else {
+                return
             }
-            
+            let dataFromBase64 = Data(base64Encoded: package)
+            if self?.packageSignalType == .PulseOpen && dataFromBase64 != nil {
+                LockyBLEHelper.share.writeData(device: device, data: dataFromBase64!)
+            }
         }
     }
     
     public func didDisconnect (device: LockyDeviceModel) {
         connectedDevice = nil
+    }
+    
+    public func didWrite(error: Error?) {
+        if let _ = error {
+            return
+        }
+    }
+    
+    public func didRead (data: String?) {
+        guard let data = data else {
+            return
+        }
+        guard let connectedLock = connectedLock else {
+            return
+        }
+        var payload = [String: Any]()
+        payload["data"] = data
+        LockyService.messageDelivered(token: connectedLock.token!, deviceId: connectedLock.id, tenantId: connectedLock.tenantId!, payload: payload) { _ in
+        }
     }
 }
 

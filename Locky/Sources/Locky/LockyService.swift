@@ -141,14 +141,6 @@ public class LockyService {
         }
     }
     
-/**
-     * Download a 16 bytes encrypted package from the backend that contains the information instruction for the lock.
-     * @param String token The token
-     * @param String deviceId Id of the device
-     * @param String tenantId Id of the tenant
-     * @param String type pulseopen,forcedopen,forcedclosed,normalstate
-     * @returns {unresolved}
-     */
     class func downloadPackage(token: String, deviceId: String, tenantId: String, type: PackageSignalType, completion: @escaping ((String?) -> Void)) {
         
         let signal = type.rawValue
@@ -175,8 +167,25 @@ public class LockyService {
             } catch {
                 completion(nil)
             }
-//            let package = String(data: data, encoding: .utf8)
-//            completion(package)
+        }
+    }
+    
+    class func messageDelivered(token: String, deviceId: String, tenantId: String, payload: [String: Any], completion: @escaping ((Bool) -> Void)) {
+        var headers = [String: String]()
+        headers["tenantId"] = tenantId
+        headers["token"] = token
+        headers["Content-Type"] = "application/json"
+        let httpHeaders = HTTPHeaders(headers)
+        var request = try! URLRequest(url: Environment.endpoint + "lockyapi/mobilekey/msgdelivered?deviceId=" + deviceId, method: .post)
+        request.headers = httpHeaders
+        request.httpBody = try! JSONSerialization.data(withJSONObject: payload, options: [])
+        AF.request(request).responseData { response in
+            let statusCode = response.response?.statusCode
+            if statusCode == 200 {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
     }
 }
