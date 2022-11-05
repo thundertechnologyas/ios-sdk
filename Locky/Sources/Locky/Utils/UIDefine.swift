@@ -1,9 +1,8 @@
 //
-//  YJSUIDefine.swift
-//  YouShaQi
+//  UIDefine.swift
+//  Locky
 //
-//  Created by Nevermore on 2020/4/21.
-//  Copyright © 2020 Shanghai YuanJu Network Technology Co.Ltd. All rights reserved.
+//  Created by Shaolin Zhou on 2022/10/25.
 //
 
 import Foundation
