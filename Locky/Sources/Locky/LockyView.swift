@@ -50,15 +50,24 @@ public class LockyView: UIView {
     private var connectedDevice: LockyDeviceModel?
     private var connectedLock: LockyMobile?
     private var packageSignalType: PackageSignalType = .PulseOpen
+    private var lockyHelper = LockyBLEHelper()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        LockyBLEHelper.share.delegate = self
+        lockyHelper.delegate = self
         createSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        lockyHelper.delegate = nil
+        lockyHelper.stopScan()
+        if let connectedDevice = connectedDevice {
+            lockyHelper.disconnect(device: connectedDevice)
+        }
     }
 }
 
@@ -121,7 +130,7 @@ private extension LockyView {
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(firstHintLabel.snp.bottom).offset(15)
             make.width.equalTo(Screen_Width - 30)
-            make.height.equalTo(36)
+            make.height.equalTo(40)
         }
 
         scrollView.addSubview(startButton)
@@ -138,7 +147,7 @@ private extension LockyView {
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(emailTextField.snp.bottom).offset(15)
             make.width.equalTo(Screen_Width - 30)
-            make.height.equalTo(36)
+            make.height.equalTo(40)
         }
 
         scrollView.addSubview(verifyLabel)
@@ -179,7 +188,7 @@ private extension LockyView {
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(verifyHintLabel.snp.bottom).offset(15)
             make.width.equalTo(Screen_Width - 30)
-            make.height.equalTo(36)
+            make.height.equalTo(40)
         }
 
         scrollView.addSubview(verifyButton)
@@ -194,7 +203,7 @@ private extension LockyView {
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(codeTextField.snp.bottom).offset(15)
             make.width.equalTo(Screen_Width - 30)
-            make.height.equalTo(36)
+            make.height.equalTo(40)
         }
         
         verifyButton.addTarget(self, action: #selector(verifyAction), for: .touchUpInside)
@@ -225,7 +234,7 @@ private extension LockyView {
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(tokenHintLabel.snp.bottom).offset(15)
             make.width.equalTo(Screen_Width - 30)
-            make.height.equalTo(36)
+            make.height.equalTo(40)
         }
         
         scrollView.addSubview(tenansLabel)
@@ -253,7 +262,7 @@ private extension LockyView {
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(tenansLabel.snp.bottom).offset(15)
             make.width.equalTo(Screen_Width - 30)
-            make.height.equalTo(36)
+            make.height.equalTo(40)
         }
         
         getMobileButton.addTarget(self, action: #selector(getMobileAction), for: .touchUpInside)
@@ -283,15 +292,13 @@ private extension LockyView {
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(getLocksLabel.snp.bottom).offset(15)
             make.width.equalTo(Screen_Width - 30)
-            make.height.equalTo(36)
+            make.height.equalTo(40)
         }
         
         getLocksButton.addTarget(self, action: #selector(getLockAction), for: .touchUpInside)
         
         scrollView.addSubview(locksView)
-        locksView.layer.cornerRadius = 4
-        locksView.layer.masksToBounds = true
-        locksView.backgroundColor = Color_Hex(0xF8F8F8)
+        locksView.backgroundColor = .clear
         locksView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(15)
             make.top.equalTo(getLocksButton.snp.bottom).offset(15)
@@ -303,7 +310,7 @@ private extension LockyView {
         layoutIfNeeded()
         
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.scrollView.contentSize = CGSize(width: Screen_Width, height: 85 + self.getLocksButton.frame.origin.y)
+            self.scrollView.contentSize = CGSize(width: Screen_Width, height: 90 + self.getLocksButton.frame.origin.y)
         }
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEdit)))
     }
@@ -355,10 +362,11 @@ private extension LockyView {
     }
     
     @objc func getMobileAction(sender: Any) {
-        guard let token = tokenModel, !token.token.isEmpty else {
-            return
-        }
-        LockyService.getMobileKeys(token: token.token) {[weak self] result, tenantList in
+//        guard let token = tokenModel, !token.token.isEmpty else {
+//            return
+//        }
+        let token1 = "7c6622d3-72cf-44b6-9f05-46614f54df88"
+        LockyService.getMobileKeys(token: token1) {[weak self] result, tenantList in
             if result {
                 self?.mobileKeyList = tenantList
             }
@@ -381,7 +389,7 @@ private extension LockyView {
                 self?.locksList.append(contentsOf: locks)
             }
         }
-        LockyBLEHelper.share.scanForPeripherals()
+        lockyHelper.scanForPeripherals()
     }
     
     func customLocksView (needRefresh: Bool, locks: [LockyMobile]) {
@@ -391,48 +399,55 @@ private extension LockyView {
                 view.removeFromSuperview()
             }
         }
-        var yOrigin = locksList.count * 44
+        var yOrigin = locksList.count * 84
         
         for k in locks.indices {
             let lock = locks[k]
-            let cView = customLockItemView(lock: lock, tag: k + 1 + tagDelta, frame: CGRect(x: 0, y: yOrigin, width: Int(Screen_Width - 30), height: 44))
+            let cView = customLockItemView(lock: lock, tag: k + 1 + tagDelta, frame: CGRect(x: 0, y: yOrigin, width: Int(Screen_Width - 30), height: 84))
             locksView.addSubview(cView)
-            yOrigin += 44
+            yOrigin += 84
         }
         locksView.snp.updateConstraints() { make in
             make.height.equalTo(yOrigin)
         }
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 54 + getLocksButton.frame.origin.y + CGFloat(yOrigin) + 52)
+        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 60 + getLocksButton.frame.origin.y + CGFloat(yOrigin) + 52)
     }
     
     private func customLockItemView(lock: LockyMobile, tag: Int, frame: CGRect)->UIView {
         let cView = UIView(frame: frame)
-        let nameLabel = UILabel(frame: CGRect(x: 15, y: 5, width: Screen_Width - 200, height: 34))
+        cView.backgroundColor = .clear
+        let hostView = UIView(frame: CGRect(x: 0, y: 10, width: Screen_Width - 30, height: 64))
+        cView.addSubview(hostView)
+        hostView.layer.cornerRadius = 4
+        hostView.backgroundColor = Color_Hex(0xEDEDED)
+        let nameLabel = UILabel(frame: CGRect(x: 15, y: 25, width: Screen_Width - 200, height: 34))
         nameLabel.text = lock.name
         nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         nameLabel.textColor = .black
         nameLabel.backgroundColor = .clear
         cView.addSubview(nameLabel)
         cView.tag = tag
-        cView.backgroundColor = .clear
+        var hasBle = false
         if let deviceList = deviceList {
             for item in deviceList {
                 if item.deviceId == lock.id {
-                    cView.backgroundColor = Color_Hex(0xF8F8F8)
-                    cView.layer.cornerRadius = 4
-                    let connectButton = UIButton(frame: CGRect(x: Screen_Width - 150, y: 5, width: 105, height: 34))
+                    hostView.backgroundColor = Color_Hex(0x9CA06B)
+                    
+                    let connectButton = UIButton(frame: CGRect(x: Screen_Width - 150, y: 22, width: 105, height: 40))
                     cView.addSubview(connectButton)
-                    connectButton.layer.borderWidth = 1.0
                     connectButton.layer.cornerRadius = 4
-                    connectButton.layer.borderColor = UIColor.gray.cgColor
                     connectButton.backgroundColor = Color_Hex(0x008CBA)
                     connectButton.setTitle("Pulse open", for: .normal)
                     connectButton.setTitleColor(.white, for: .normal)
                     connectButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
                     connectButton.addTarget(self, action: #selector(connectDevice), for: .touchUpInside)
+                    hasBle = true
                     break
                 }
             }
+        }
+        if hasBle == false {
+            nameLabel.frame = CGRect(x: 15, y: 25, width: Screen_Width - 60, height: 34)
         }
         return cView
     }
@@ -445,7 +460,8 @@ private extension LockyView {
             if let deviceList = deviceList {
                 for item in deviceList {
                     if item.deviceId == lock.id {
-                        cView!.backgroundColor = .yellow
+                        let hostView = cView?.viewWithTag(1)
+                        hostView!.backgroundColor = Color_Hex(0x9CA06B)
                         break
                     }
                 }
@@ -465,17 +481,17 @@ private extension LockyView {
             if lock.id == device.deviceId {
                 if let connectedDevice = connectedDevice {
                    if connectedDevice.deviceId == device.deviceId {
-                       
+                       writeData(device: connectedDevice)
                    } else {
-                       LockyBLEHelper.share.disconnect(device: device)
-                       LockyBLEHelper.share.connect(device: device)
+                       lockyHelper.disconnect(device: connectedDevice)
+                       lockyHelper.connect(device: device)
                        return
                    }
                 } else {
-                    LockyBLEHelper.share.connect(device: device)
+                    lockyHelper.connect(device: device)
                     return
                 }
-                
+                break
             }
         }
     }
@@ -489,19 +505,7 @@ extension LockyView: LockyBLEProtocol {
     
     public func didConnect(device: LockyDeviceModel) {
         connectedDevice = device
-        guard let lock = getLockFromDevice(device) else {
-            return
-        }
-        connectedLock = lock
-        LockyService.downloadPackage(token: lock.token!, deviceId: device.deviceId, tenantId: lock.tenantId!, type: packageSignalType) {[weak self] package in
-            guard let package = package else {
-                return
-            }
-            let dataFromBase64 = Data(base64Encoded: package)
-            if self?.packageSignalType == .PulseOpen && dataFromBase64 != nil {
-                LockyBLEHelper.share.writeData(device: device, data: dataFromBase64!)
-            }
-        }
+        writeData(device: device)
     }
     
     public func didDisconnect (device: LockyDeviceModel) {
@@ -528,7 +532,7 @@ extension LockyView: LockyBLEProtocol {
     }
 }
 
-extension LockyView {
+private extension LockyView {
     func getLockFromDevice(_ device: LockyDeviceModel) -> LockyMobile? {
         for lock in locksList {
             if lock.id == device.deviceId {
@@ -536,5 +540,21 @@ extension LockyView {
             }
         }
         return nil
+    }
+    
+    func writeData(device: LockyDeviceModel) {
+        guard let lock = getLockFromDevice(device) else {
+            return
+        }
+        connectedLock = lock
+        LockyService.downloadPackage(token: lock.token!, deviceId: device.deviceId, tenantId: lock.tenantId!, type: packageSignalType) {[weak self] package in
+            guard let package = package else {
+                return
+            }
+            let dataFromBase64 = Data(base64Encoded: package)
+            if self?.packageSignalType == .PulseOpen && dataFromBase64 != nil {
+                self?.lockyHelper.writeData(device: device, data: dataFromBase64!)
+            }
+        }
     }
 }

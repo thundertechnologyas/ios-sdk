@@ -9,8 +9,6 @@ import Foundation
 import CoreBluetooth
  
 public class LockyBLEHelper: NSObject {
-
-    public static var share =  LockyBLEHelper()
     
     public var delegate: LockyBLEProtocol?
     
@@ -29,7 +27,7 @@ public class LockyBLEHelper: NSObject {
     let characteristicUUIDStringForWrite = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
     let characteristicUUIDStringForRead = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
 
-    private override init() {
+    public override init() {
         super.init()
         self.centralManager = CBCentralManager.init(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey : false])
     }
@@ -39,10 +37,6 @@ public class LockyBLEHelper: NSObject {
         if centralManager.state == .poweredOn {
             doScan()
         }
-    }
-    
-    private func doScan() {
-        self.centralManager.scanForPeripherals(withServices: [CBUUID(string: confirmServiceUUID)], options: nil)
     }
     
     ///connect peripheral
@@ -113,8 +107,6 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
     }
     ///discover peripheral
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        //add to discovered peripheral list
-        //<CBPeripheral: 0x2826683c0, identifier = 5ACB78C4-A44C-A912-6764-6D4387548D1D, name = TT, mtu = 0, state = disconnected>
         if !discoveredPeripherals.contains(peripheral) {
             discoveredPeripherals.append(peripheral)
         }
@@ -126,31 +118,6 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
             discoveredDevices.append(device)
             delegate?.didDiscover(discoveredDevices)
         }
-    }
-    
-    private func parsePeripheral(_ peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) -> LockyDeviceModel? {
-        guard let name = peripheral.name, name.contains("TT") else {
-            return nil
-        }
-        
-        guard let advertise = advertisementData["kCBAdvDataManufacturerData"] else {
-            return nil
-        }
-        var device = LockyDeviceModel()
-        
-        device.bleId = peripheral.identifier.uuidString
-        let advertiseStr = (advertise as! Data).hexadecimal()
-        if advertiseStr.count >= 30 {
-            device.deviceId = advertiseStr.sub(from: 6, to: 30)!
-        }
-        device.lastSeen = Date()
-        let hasData = advertiseStr.sub(from: 4, to: 6)
-        if hasData == "01" {
-            device.hasData = true
-        }
-        device.rssi = RSSI.floatValue
-        device.peripheral = peripheral
-        return device
     }
     
     ///did connect
@@ -185,6 +152,37 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
             }
         }
         print("disconnect")
+    }
+}
+
+private extension LockyBLEHelper {
+    func doScan() {
+        self.centralManager.scanForPeripherals(withServices: [CBUUID(string: confirmServiceUUID)], options: nil)
+    }
+    
+    func parsePeripheral(_ peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) -> LockyDeviceModel? {
+        guard let name = peripheral.name, name.contains("TT") else {
+            return nil
+        }
+        
+        guard let advertise = advertisementData["kCBAdvDataManufacturerData"] else {
+            return nil
+        }
+        var device = LockyDeviceModel()
+        
+        device.bleId = peripheral.identifier.uuidString
+        let advertiseStr = (advertise as! Data).hexadecimal()
+        if advertiseStr.count >= 30 {
+            device.deviceId = advertiseStr.sub(from: 6, to: 30)!
+        }
+        device.lastSeen = Date()
+        let hasData = advertiseStr.sub(from: 4, to: 6)
+        if hasData == "01" {
+            device.hasData = true
+        }
+        device.rssi = RSSI.floatValue
+        device.peripheral = peripheral
+        return device
     }
 }
 
@@ -232,7 +230,6 @@ extension LockyBLEHelper:CBPeripheralDelegate{
         }
     }
     
-    //MARK: - write data if success
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         delegate?.didWrite(error: error)
     }
