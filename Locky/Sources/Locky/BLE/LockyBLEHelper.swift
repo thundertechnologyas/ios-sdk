@@ -12,27 +12,31 @@ public class LockyBLEHelper: NSObject {
     
     public var delegate: LockyBLEProtocol?
     
-    var centralManager:CBCentralManager!
+    private var centralManager:CBCentralManager!
     
-    var connectedPeripheral:CBPeripheral?
+    private var connectedPeripheral:CBPeripheral?
     //discoverd peripherals array
-    var discoveredDevices :[LockyDeviceModel] = []
-    var discoveredPeripherals :[CBPeripheral] = []
+    private var discoveredDevices:[LockyDeviceModel] = []
+    private var discoveredPeripherals:[CBPeripheral] = []
+    private var hasDataPeripherals:[CBPeripheral] = []
+    private var workItems:[DispatchWorkItem] = []
+    private var resetHasDataworkItem:DispatchWorkItem?
+    private var deltaTime = 0
+    
+    private var autoCollectBLEData = true
     
     // CBCService UUID
-    let confirmServiceUUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
+    private let confirmServiceUUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
 
-    var confirmCharacteristic : CBCharacteristic!
-    
-    let characteristicUUIDStringForWrite = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
-    let characteristicUUIDStringForRead = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+    private let characteristicUUIDStringForWrite = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
+    private let characteristicUUIDStringForRead = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
 
     public override init() {
         super.init()
         self.centralManager = CBCentralManager.init(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey : false])
     }
     
-    func scanForPeripherals () {
+    public func scanForPeripherals () {
         self.stopScan()
         if centralManager.state == .poweredOn {
             doScan()
@@ -44,37 +48,63 @@ public class LockyBLEHelper: NSObject {
         centralManager.connect(peripheral, options: nil)
     }
     
-    func connect(device: LockyDeviceModel) {
+    public func connect(device: LockyDeviceModel) {
         guard let peripheral = device.peripheral else {
             return
         }
+        autoCollectBLEData = false
+        for item in workItems {
+            item.cancel()
+        }
+        hasDataPeripherals.removeAll()
+        workItems.removeAll()
         if device.peripheral == connectedPeripheral {
             delegate?.didConnect(device: device)
             return
         }
+        if let p = connectedPeripheral {
+            centralManager.cancelPeripheralConnection(p)
+            connectedPeripheral = nil
+        }
         connect(peripheral: peripheral)
     }
     
-    func disconnect(device: LockyDeviceModel) {
+    public func disconnect(device: LockyDeviceModel) {
         guard let peripheral = device.peripheral else {
             return
         }
-        if let connectedPeripheral = connectedPeripheral {
-            centralManager.cancelPeripheralConnection(connectedPeripheral)
+        if peripheral == connectedPeripheral {
+            centralManager.cancelPeripheralConnection(peripheral)
+            connectedPeripheral = nil
+        } else if let p = connectedPeripheral {
+            centralManager.cancelPeripheralConnection(p)
+            connectedPeripheral = nil
+            centralManager.cancelPeripheralConnection(peripheral)
+        } else {
+            centralManager.cancelPeripheralConnection(peripheral)
         }
-        centralManager.cancelPeripheralConnection(peripheral)
     }
     
-    func stopScan() {
+    public func stopScan() {
         if centralManager.isScanning {
             centralManager.stopScan()
         }
     }
     
-    func writeData(device: LockyDeviceModel, data: Data) {
+    public func writeData(device: LockyDeviceModel, data: Data) {
         guard let peripheral = device.peripheral else {
             return
         }
+        autoCollectBLEData = false
+        if resetHasDataworkItem != nil {
+            resetHasDataworkItem?.cancel()
+            resetHasDataworkItem = nil
+        }
+        resetHasDataworkItem = DispatchWorkItem { [weak self] in
+            self?.autoCollectBLEData = true
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: resetHasDataworkItem!)
         for service in peripheral.services ?? [] {
             for characteristic in service.characteristics ?? [] {
                 if characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForWrite)) {
@@ -110,8 +140,24 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
         if !discoveredPeripherals.contains(peripheral) {
             discoveredPeripherals.append(peripheral)
         }
-        
-        if let device = parsePeripheral(peripheral, advertisementData: advertisementData, rssi: RSSI) {
+        if var device = parsePeripheral(peripheral, advertisementData: advertisementData, rssi: RSSI) {
+            if device.hasData && autoCollectBLEData {
+                device.hasData = false
+                hasDataPeripherals.append(peripheral)
+                let workItem = DispatchWorkItem { [weak self] in
+                    if (self?.hasDataPeripherals.count ?? 0) > 0 {
+                        let peripheral = self?.hasDataPeripherals[0]
+                        self?.connect(peripheral: peripheral!)
+                        self?.hasDataPeripherals.removeFirst()
+                    }
+                    if (self?.workItems.count ?? 0) > 0 {
+                        self?.workItems.removeFirst()
+                    }
+                }
+                workItems.append(workItem)
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(deltaTime), execute: workItem)
+                deltaTime += 2
+            }
             discoveredDevices.removeAll { item in
                 return item.deviceId == device.deviceId
             }
@@ -156,6 +202,7 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
 }
 
 private extension LockyBLEHelper {
+    
     func doScan() {
         self.centralManager.scanForPeripherals(withServices: [CBUUID(string: confirmServiceUUID)], options: nil)
     }
@@ -177,7 +224,7 @@ private extension LockyBLEHelper {
         }
         device.lastSeen = Date()
         let hasData = advertiseStr.sub(from: 4, to: 6)
-        if hasData == "01" {
+        if hasData == "02" {
             device.hasData = true
         }
         device.rssi = RSSI.floatValue
@@ -217,12 +264,7 @@ extension LockyBLEHelper:CBPeripheralDelegate{
             
             let propertie = characteristic.properties
 
-            if propertie == CBCharacteristicProperties.write && characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForWrite))  {
-                self.confirmCharacteristic = characteristic
-                //写入
-                let byte:[UInt8] = [0xAA]
-                let data = Data(bytes: byte, count: 1)
-                self.connectedPeripheral!.writeValue(data, for: self.confirmCharacteristic, type: CBCharacteristicWriteType.withResponse)
+            if propertie == CBCharacteristicProperties.write && characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForWrite)) {
             }
             if (propertie == .notify || propertie == .read) && characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForRead)) {
                 peripheral.setNotifyValue(true, for: characteristic)
@@ -238,9 +280,16 @@ extension LockyBLEHelper:CBPeripheralDelegate{
         if let _ = error {
             return
         }
+        var device: LockyDeviceModel? = nil
+        for item in discoveredDevices {
+            if item.peripheral == peripheral {
+                device = item
+                break
+            }
+        }
         if let data = characteristic.value {
             let base64Str = data.base64EncodedString()
-            delegate?.didRead(data: base64Str)
+            delegate?.didRead(device: device, data: base64Str)
             print("base64Str:", base64Str)
         }
     }

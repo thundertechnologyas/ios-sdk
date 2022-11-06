@@ -91,8 +91,8 @@ public class LockyService {
         }
     }
     
-    class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockyMobile]) -> Void)) {
-        
+    class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockyMobile], Bool) -> Void)) {
+        var loadIndex = 0
         for mobile in mobileKeys {
             var headers = [String: String]()
             headers["tenantId"] = mobile.tenantId
@@ -103,20 +103,22 @@ public class LockyService {
                        parameters: nil,
                        encoding: URLEncoding.default,
                        headers: httpHeaders).responseData { response in
+                loadIndex += 1
+                var dataArray:[LockyMobile] = []
                 if let locksData = response.data {
                     do {
-                        var dataArray:[LockyMobile] = []
                         let lockList = try Network.decode(type: [LockyMobile].self, data: locksData)
                         for var lock in lockList {
                             lock.token = mobile.token
                             lock.tenantId = mobile.tenantId
                             dataArray.append(lock)
                         }
-                        completion(dataArray)
+                       
                     } catch {
                         
                     }
                 }
+                completion(dataArray, loadIndex == mobileKeys.count - 1)
             }
         }
     }

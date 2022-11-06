@@ -138,7 +138,6 @@ private extension LockyView {
         startButton.backgroundColor = Color_Hex(0x008CBA)
         startButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         startButton.setTitleColor(.white, for: .normal)
-        startButton.backgroundColor = .white
         startButton.layer.cornerRadius = 4
         startButton.layer.borderWidth = 1
         startButton.layer.borderColor = UIColor.gray.cgColor
@@ -378,7 +377,7 @@ private extension LockyView {
             return
         }
         var needRefresh = true
-        LockyService.getAllLocks(mobileKeyList) {[weak self] locks in
+        LockyService.getAllLocks(mobileKeyList) {[weak self] locks, loadFinished in
             if needRefresh {
                 self?.locksList.removeAll()
                 self?.customLocksView(needRefresh: true, locks: locks)
@@ -388,8 +387,10 @@ private extension LockyView {
                 self?.customLocksView(needRefresh: false, locks: locks)
                 self?.locksList.append(contentsOf: locks)
             }
+            if loadFinished {
+                self?.lockyHelper.scanForPeripherals()
+            }
         }
-        lockyHelper.scanForPeripherals()
     }
     
     func customLocksView (needRefresh: Bool, locks: [LockyMobile]) {
@@ -418,36 +419,36 @@ private extension LockyView {
         cView.backgroundColor = .clear
         let hostView = UIView(frame: CGRect(x: 0, y: 10, width: Screen_Width - 30, height: 64))
         cView.addSubview(hostView)
+        hostView.tag = 1
         hostView.layer.cornerRadius = 4
         hostView.backgroundColor = Color_Hex(0xEDEDED)
-        let nameLabel = UILabel(frame: CGRect(x: 15, y: 25, width: Screen_Width - 200, height: 34))
+        let nameLabel = UILabel(frame: CGRect(x: 15, y: 25, width: Screen_Width - 60, height: 34))
         nameLabel.text = lock.name
         nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         nameLabel.textColor = .black
         nameLabel.backgroundColor = .clear
         cView.addSubview(nameLabel)
         cView.tag = tag
-        var hasBle = false
+        let connectButton = UIButton(frame: CGRect(x: Screen_Width - 150, y: 22, width: 105, height: 40))
+        cView.addSubview(connectButton)
+        connectButton.layer.cornerRadius = 4
+        connectButton.backgroundColor = Color_Hex(0x008CBA)
+        connectButton.setTitle("Pulse open", for: .normal)
+        connectButton.setTitleColor(.white, for: .normal)
+        connectButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        connectButton.addTarget(self, action: #selector(connectDevice), for: .touchUpInside)
+        connectButton.isHidden = true
+        nameLabel.tag = 2
+        connectButton.tag = 3
         if let deviceList = deviceList {
             for item in deviceList {
                 if item.deviceId == lock.id {
                     hostView.backgroundColor = Color_Hex(0x9CA06B)
-                    
-                    let connectButton = UIButton(frame: CGRect(x: Screen_Width - 150, y: 22, width: 105, height: 40))
-                    cView.addSubview(connectButton)
-                    connectButton.layer.cornerRadius = 4
-                    connectButton.backgroundColor = Color_Hex(0x008CBA)
-                    connectButton.setTitle("Pulse open", for: .normal)
-                    connectButton.setTitleColor(.white, for: .normal)
-                    connectButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-                    connectButton.addTarget(self, action: #selector(connectDevice), for: .touchUpInside)
-                    hasBle = true
+                    connectButton.isHidden = false
+                    nameLabel.frame = CGRect(x: 15, y: 25, width: Screen_Width - 200, height: 34)
                     break
                 }
             }
-        }
-        if hasBle == false {
-            nameLabel.frame = CGRect(x: 15, y: 25, width: Screen_Width - 60, height: 34)
         }
         return cView
     }
@@ -460,8 +461,15 @@ private extension LockyView {
             if let deviceList = deviceList {
                 for item in deviceList {
                     if item.deviceId == lock.id {
-                        let hostView = cView?.viewWithTag(1)
-                        hostView!.backgroundColor = Color_Hex(0x9CA06B)
+                        if let hostView = cView?.viewWithTag(1) {
+                            hostView.backgroundColor = Color_Hex(0x9CA06B)
+                        }
+                        if let nameLabel = cView?.viewWithTag(2) {
+                            nameLabel.frame = CGRect(x: 15, y: 25, width: Screen_Width - 200, height: 34)
+                        }
+                        if let connectButton = cView?.viewWithTag(3) {
+                            connectButton.isHidden = false
+                        }
                         break
                     }
                 }
@@ -499,6 +507,7 @@ private extension LockyView {
 }
 
 extension LockyView: LockyBLEProtocol {
+    
     public func didDiscover (_ devices: [LockyDeviceModel]) {
         updateLockStatus(devices)
     }
@@ -518,17 +527,25 @@ extension LockyView: LockyBLEProtocol {
         }
     }
     
-    public func didRead (data: String?) {
+    public func didRead (device: LockyDeviceModel?, data: String?) {
         guard let data = data else {
             return
         }
-        guard let connectedLock = connectedLock else {
-            return
+        if let connectedLock = connectedLock {
+            var payload = [String: Any]()
+            payload["data"] = data
+            LockyService.messageDelivered(token: connectedLock.token!, deviceId: connectedLock.id, tenantId: connectedLock.tenantId!, payload: payload) { _ in
+            }
+        } else if let device = device {
+            guard let lock = getLockFromDevice(device) else {
+                return
+            }
+            var payload = [String: Any]()
+            payload["data"] = data
+            LockyService.messageDelivered(token: lock.token!, deviceId: lock.id, tenantId: lock.tenantId!, payload: payload) { _ in
+            }
         }
-        var payload = [String: Any]()
-        payload["data"] = data
-        LockyService.messageDelivered(token: connectedLock.token!, deviceId: connectedLock.id, tenantId: connectedLock.tenantId!, payload: payload) { _ in
-        }
+
     }
 }
 
@@ -546,6 +563,7 @@ private extension LockyView {
         guard let lock = getLockFromDevice(device) else {
             return
         }
+        
         connectedLock = lock
         LockyService.downloadPackage(token: lock.token!, deviceId: device.deviceId, tenantId: lock.tenantId!, type: packageSignalType) {[weak self] package in
             guard let package = package else {

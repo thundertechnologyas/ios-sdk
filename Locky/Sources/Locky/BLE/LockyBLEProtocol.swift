@@ -13,5 +13,5 @@ public protocol LockyBLEProtocol {
     func didConnect (device: LockyDeviceModel)
     func didDisconnect (device: LockyDeviceModel)
     func didWrite (error: Error?)
-    func didRead (data: String?)
+    func didRead (device: LockyDeviceModel?, data: String?)
 }
