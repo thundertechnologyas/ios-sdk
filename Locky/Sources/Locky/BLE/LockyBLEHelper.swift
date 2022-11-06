@@ -20,7 +20,7 @@ public class LockyBLEHelper: NSObject {
     private var discoveredPeripherals:[CBPeripheral] = []
     private var hasDataPeripherals:[CBPeripheral] = []
     private var workItems:[DispatchWorkItem] = []
-    private var resetHasDataworkItem:DispatchWorkItem?
+    private var resetHasDataWorkItem:DispatchWorkItem?
     private var deltaTime = 0
     
     private var autoCollectBLEData = true
@@ -96,15 +96,17 @@ public class LockyBLEHelper: NSObject {
             return
         }
         autoCollectBLEData = false
-        if resetHasDataworkItem != nil {
-            resetHasDataworkItem?.cancel()
-            resetHasDataworkItem = nil
+        if resetHasDataWorkItem != nil {
+            resetHasDataWorkItem?.cancel()
+            resetHasDataWorkItem = nil
         }
-        resetHasDataworkItem = DispatchWorkItem { [weak self] in
-            self?.autoCollectBLEData = true
+        resetHasDataWorkItem = DispatchWorkItem { [weak self] in
+            if self?.connectedPeripheral == nil {
+                self?.autoCollectBLEData = true
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: resetHasDataworkItem!)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: resetHasDataWorkItem!)
         for service in peripheral.services ?? [] {
             for characteristic in service.characteristics ?? [] {
                 if characteristic.uuid.isEqual(CBUUID(string: characteristicUUIDStringForWrite)) {

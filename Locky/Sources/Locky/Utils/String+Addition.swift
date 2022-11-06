@@ -7,12 +7,8 @@
 
 import Foundation
 import UIKit
-import CommonCrypto
-import CoreText
 
-//MARK: - 常用
 extension String {
-    /// 判断是否为空
     public var isBlank: Bool {
         if self.isEmpty {
             return true
@@ -39,9 +35,7 @@ extension String {
     }
 }
 
-//MARK: - 字符串截取
 extension String {
-    /// 不包含to
     public func sub(to: Int) -> String? {
         guard isVaild(to: to) else {
             return nil
@@ -50,7 +44,6 @@ extension String {
         return String(self[..<index])
     }
     
-    /// 包含from
     public func sub(from: Int) -> String? {
         guard isVaild(from: from) else {
             return nil
@@ -59,7 +52,6 @@ extension String {
         return String(self[index ..< endIndex])
     }
     
-    /// 包含from, 不包含to
     public func sub(from: Int, to: Int) -> String? {
         guard isVaild(to: to), isVaild(from: from), from <= to else {
             return nil
@@ -95,20 +87,18 @@ extension String {
 }
 
 extension String {
-    /// 在指定的宽高下，计算文本宽高
+
     public func yjs_stringSize(fontSize: CGFloat, size: CGSize) -> CGRect {
         let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize)]
         let rect: CGRect = self.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         return rect
     }
     
-    /// 在指定的宽度下，计算文本宽高
     public func size(fixWidth: CGFloat, font: UIFont) -> CGSize {
         let rect = (self as NSString).boundingRect(with: CGSize(width: fixWidth, height: CGFloat(MAXFLOAT)), options: .truncatesLastVisibleLine, attributes: [:], context: nil)
         return rect.size
     }
     
-    /// 在指定宽度、行数的范围下，计算文本的宽高
     public func size(fixWidth: CGFloat, numberOfLines: Int, font: UIFont) -> CGSize {
         let label = UILabel()
         label.numberOfLines = numberOfLines
