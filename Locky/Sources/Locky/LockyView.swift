@@ -361,11 +361,10 @@ private extension LockyView {
     }
     
     @objc func getMobileAction(sender: Any) {
-//        guard let token = tokenModel, !token.token.isEmpty else {
-//            return
-//        }
-        let token1 = "7c6622d3-72cf-44b6-9f05-46614f54df88"
-        LockyService.getMobileKeys(token: token1) {[weak self] result, tenantList in
+        guard let token = tokenModel, !token.token.isEmpty else {
+            return
+        }
+        LockyService.getMobileKeys(token: token.token) {[weak self] result, tenantList in
             if result {
                 self?.mobileKeyList = tenantList
             }
