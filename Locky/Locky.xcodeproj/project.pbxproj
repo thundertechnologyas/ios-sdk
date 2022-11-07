@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		4812CAC529158D8700E87F2D /* LockyPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812CAC429158D8600E87F2D /* LockyPackage.swift */; };
+		4853A48129194C33002534FE /* Locky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853A48029194C33002534FE /* Locky.swift */; };
 		485D027F2906EA00000DCB94 /* LockyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D027E2906EA00000DCB94 /* LockyService.swift */; };
 		485D02812906EA1A000DCB94 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02802906EA1A000DCB94 /* Environment.swift */; };
 		485D02832906EE07000DCB94 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02822906EE07000DCB94 /* Network.swift */; };
@@ -59,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		4812CAC429158D8600E87F2D /* LockyPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyPackage.swift; sourceTree = "<group>"; };
+		4853A48029194C33002534FE /* Locky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locky.swift; sourceTree = "<group>"; };
 		485D027E2906EA00000DCB94 /* LockyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyService.swift; sourceTree = "<group>"; };
 		485D02802906EA1A000DCB94 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		485D02822906EE07000DCB94 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				48954838290EB7EF0000D4D0 /* Model */,
 				4895482F290E6A3B0000D4D0 /* Utils */,
 				485D027E2906EA00000DCB94 /* LockyService.swift */,
+				4853A48029194C33002534FE /* Locky.swift */,
 			);
 			name = Locky;
 			path = Sources/Locky;
@@ -286,6 +289,7 @@
 			files = (
 				48ED33782914154700AC2BE3 /* LockyBLEProtocol.swift in Sources */,
 				48954843291026F10000D4D0 /* LockModel.swift in Sources */,
+				4853A48129194C33002534FE /* Locky.swift in Sources */,
 				485D027F2906EA00000DCB94 /* LockyService.swift in Sources */,
 				48E6AFDA2911979D00AF3668 /* UIDefine.swift in Sources */,
 				48954831290E6A490000D4D0 /* String+Addition.swift in Sources */,
