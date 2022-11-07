@@ -17,7 +17,7 @@ public enum PackageSignalType: String {
 }
 
 public class LockyService {
-    class func startVerify(email: String, completion: @escaping ((Bool,  Error?) -> Void)) {
+    public class func startVerify(email: String, completion: @escaping ((Bool,  Error?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["email"] = email
@@ -36,7 +36,7 @@ public class LockyService {
         }
     }
     
-    class func verify(email: String, code: String, completion: @escaping ((TokenModel?) -> Void)) {
+    public class func verify(email: String, code: String, completion: @escaping ((TokenModel?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["email"] = email
@@ -61,7 +61,7 @@ public class LockyService {
         }
     }
     
-    class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockyMobileKey]?) -> Void)) {
+    public class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockyMobileKey]?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["token"] = token
@@ -91,7 +91,7 @@ public class LockyService {
         }
     }
     
-    class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockyMobile], Bool) -> Void)) {
+    public class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockyMobile], Bool) -> Void)) {
         var loadIndex = 0
         for mobile in mobileKeys {
             var headers = [String: String]()
@@ -123,7 +123,7 @@ public class LockyService {
         }
     }
     
-    class func downloadPackage(token: String, deviceId: String, tenantId: String, type: PackageSignalType, completion: @escaping ((String?) -> Void)) {
+    public class func downloadPackage(token: String, deviceId: String, tenantId: String, type: PackageSignalType, completion: @escaping ((String?) -> Void)) {
         
         let signal = type.rawValue
         var params = [String: Any]()
@@ -152,7 +152,7 @@ public class LockyService {
         }
     }
     
-    class func messageDelivered(token: String, deviceId: String, tenantId: String, payload: [String: Any], completion: @escaping ((Bool) -> Void)) {
+    public class func messageDelivered(token: String, deviceId: String, tenantId: String, payload: [String: Any], completion: @escaping ((Bool) -> Void)) {
         var headers = [String: String]()
         headers["tenantId"] = tenantId
         headers["token"] = token

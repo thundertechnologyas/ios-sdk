@@ -15,6 +15,9 @@
 		485D02662906E7B3000DCB94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 485D02642906E7B3000DCB94 /* LaunchScreen.storyboard */; };
 		485D027B2906E8A8000DCB94 /* Locky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485D02752906E7E9000DCB94 /* Locky.framework */; };
 		485D027C2906E8A8000DCB94 /* Locky.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 485D02752906E7E9000DCB94 /* Locky.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		48C18819291936AD00F9A4C6 /* LockyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C18814291936AD00F9A4C6 /* LockyView.swift */; };
+		48C1881B2919375900F9A4C6 /* UITextField+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1881A2919375900F9A4C6 /* UITextField+Placeholder.swift */; };
+		48C1882229193E1400F9A4C6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1882129193E1400F9A4C6 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,8 @@
 		485D02652906E7B3000DCB94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		485D02672906E7B3000DCB94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		485D026D2906E7E9000DCB94 /* Locky.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Locky.xcodeproj; path = ../Locky/Locky.xcodeproj; sourceTree = "<group>"; };
+		48C18814291936AD00F9A4C6 /* LockyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyView.swift; sourceTree = "<group>"; };
+		48C1881A2919375900F9A4C6 /* UITextField+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Placeholder.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				485D027B2906E8A8000DCB94 /* Locky.framework in Frameworks */,
+				48C1882229193E1400F9A4C6 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +101,9 @@
 			children = (
 				485D02592906E7B2000DCB94 /* AppDelegate.swift */,
 				485D025B2906E7B2000DCB94 /* SceneDelegate.swift */,
+				48C1881A2919375900F9A4C6 /* UITextField+Placeholder.swift */,
 				485D025D2906E7B2000DCB94 /* LockyViewController.swift */,
+				48C18814291936AD00F9A4C6 /* LockyView.swift */,
 				485D025F2906E7B2000DCB94 /* Main.storyboard */,
 				485D02622906E7B3000DCB94 /* Assets.xcassets */,
 				485D02642906E7B3000DCB94 /* LaunchScreen.storyboard */,
@@ -137,6 +145,9 @@
 			dependencies = (
 			);
 			name = LockyDemo;
+			packageProductDependencies = (
+				48C1882129193E1400F9A4C6 /* SnapKit */,
+			);
 			productName = LockyDemo;
 			productReference = 485D02562906E7B2000DCB94 /* LockyDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -165,6 +176,9 @@
 				Base,
 			);
 			mainGroup = 485D024D2906E7B2000DCB94;
+			packageReferences = (
+				48C1882029193E1400F9A4C6 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 485D02572906E7B2000DCB94 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -218,6 +232,8 @@
 				485D025E2906E7B2000DCB94 /* LockyViewController.swift in Sources */,
 				485D025A2906E7B2000DCB94 /* AppDelegate.swift in Sources */,
 				485D025C2906E7B2000DCB94 /* SceneDelegate.swift in Sources */,
+				48C18819291936AD00F9A4C6 /* LockyView.swift in Sources */,
+				48C1881B2919375900F9A4C6 /* UITextField+Placeholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +453,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		48C1882029193E1400F9A4C6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		48C1882129193E1400F9A4C6 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48C1882029193E1400F9A4C6 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 485D024E2906E7B2000DCB94 /* Project object */;
 }

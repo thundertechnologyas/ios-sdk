@@ -9,10 +9,10 @@ import Foundation
 import CoreBluetooth
 
 public struct LockyDeviceModel {
-    var bleId: String = ""
-    var deviceId: String = ""
-    var lastSeen: Date?
-    var hasData: Bool = false
-    var rssi: Float = 0
-    var peripheral: CBPeripheral?
+    public var bleId: String = ""
+    public var deviceId: String = ""
+    public var lastSeen: Date?
+    public var hasData: Bool = false
+    public var rssi: Float = 0
+    public var peripheral: CBPeripheral?
 }

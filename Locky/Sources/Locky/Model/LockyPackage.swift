@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct LockyPackage: Decodable {
+public struct LockyPackage: Decodable {
     var data: String = ""
 }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Locky
 
 class LockyViewController: UIViewController {
     private lazy var lockyView: LockyView = {
