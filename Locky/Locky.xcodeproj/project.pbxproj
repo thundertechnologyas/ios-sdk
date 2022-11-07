@@ -99,6 +99,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4853A49D29194F65002534FE /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				485D027E2906EA00000DCB94 /* LockyService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		4895482F290E6A3B0000D4D0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,10 +195,10 @@
 		OBJ_8 /* Locky */ = {
 			isa = PBXGroup;
 			children = (
+				4853A49D29194F65002534FE /* Service */,
 				48ED337F29143BCA00AC2BE3 /* BLE */,
 				48954838290EB7EF0000D4D0 /* Model */,
 				4895482F290E6A3B0000D4D0 /* Utils */,
-				485D027E2906EA00000DCB94 /* LockyService.swift */,
 				4853A48029194C33002534FE /* Locky.swift */,
 			);
 			name = Locky;

@@ -11,5 +11,6 @@ public struct Locky {
     public private(set) var text = "Locky"
 
     public init() {
+        
     }
 }
