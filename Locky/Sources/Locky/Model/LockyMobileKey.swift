@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct LockyMobileKey {
+struct LockModelKey {
     var token: String = ""
     var tenantId: String = ""
 }

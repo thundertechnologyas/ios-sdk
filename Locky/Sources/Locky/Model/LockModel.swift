@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct LockyMobile: Decodable {
-    public var id: String = ""
-    public var name: String = ""
-    public var token: String?
-    public var tenantId: String?
+struct LockModel: Decodable {
+    var id: String = ""
+    var name: String = ""
+    var token: String?
+    var tenantId: String?
 }

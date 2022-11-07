@@ -9,14 +9,14 @@
 import Foundation
 import Alamofire
 
-public enum PackageSignalType: String {
+enum PackageSignalType: String {
     case PulseOpen = "pulseopenpackage"
     case ForcedOpen = "forcedopenpackage"
     case ForcedClosed = "forcedclosedpackage"
     case NormalState = "normalstatepackage"
 }
 
-public class LockyService {
+class LockyService {
     public class func startVerify(email: String, completion: @escaping ((Bool,  Error?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
@@ -61,7 +61,7 @@ public class LockyService {
         }
     }
     
-    public class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockyMobileKey]?) -> Void)) {
+    public class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockModelKey]?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["token"] = token
@@ -76,11 +76,11 @@ public class LockyService {
             }
             do {
                 let tenantList = try Network.decode(type: [String].self, data: data)
-                var dataArray:[LockyMobileKey] = []
+                var dataArray:[LockModelKey] = []
                 for toCheck in tenantList {
                     let tenantId = (toCheck as NSString).substring(to: 24)
                     let token = (toCheck as NSString).substring(from: 24)
-                    dataArray.append(LockyMobileKey(token: token, tenantId: tenantId))
+                    dataArray.append(LockModelKey(token: token, tenantId: tenantId))
                 }
 //                let jsonString = try Network.encode(from: tenantList)
                 completion(true, dataArray)
@@ -91,7 +91,7 @@ public class LockyService {
         }
     }
     
-    public class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockyMobile], Bool) -> Void)) {
+    public class func getAllLocks(_ mobileKeys: [LockModelKey], completion: @escaping (([LockModel], Bool) -> Void)) {
         var loadIndex = 0
         for mobile in mobileKeys {
             var headers = [String: String]()
@@ -104,10 +104,10 @@ public class LockyService {
                        encoding: URLEncoding.default,
                        headers: httpHeaders).responseData { response in
                 loadIndex += 1
-                var dataArray:[LockyMobile] = []
+                var dataArray:[LockModel] = []
                 if let locksData = response.data {
                     do {
-                        let lockList = try Network.decode(type: [LockyMobile].self, data: locksData)
+                        let lockList = try Network.decode(type: [LockModel].self, data: locksData)
                         for var lock in lockList {
                             lock.token = mobile.token
                             lock.tenantId = mobile.tenantId

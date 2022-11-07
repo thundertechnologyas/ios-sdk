@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct TokenModel: Decodable {
-    public let token: String
-    public let dateCreated: String
-    public let description: String
+struct TokenModel: Decodable {
+    let token: String
+    let dateCreated: String
+    let description: String
 }

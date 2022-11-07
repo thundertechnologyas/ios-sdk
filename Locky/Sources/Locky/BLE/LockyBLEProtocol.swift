@@ -8,7 +8,7 @@
 import Foundation
 import CoreBluetooth
 
-public protocol LockyBLEProtocol {
+protocol LockyBLEProtocol {
     func didDiscover (_ devices: [LockyDeviceModel])
     func didConnect (device: LockyDeviceModel)
     func didDisconnect (device: LockyDeviceModel)

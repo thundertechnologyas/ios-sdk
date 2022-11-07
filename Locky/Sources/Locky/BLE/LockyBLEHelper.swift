@@ -8,10 +8,10 @@
 import Foundation
 import CoreBluetooth
  
-public class LockyBLEHelper: NSObject {
+class LockyBLEHelper: NSObject {
     
     public var delegate: LockyBLEProtocol?
-    
+     
     private var centralManager:CBCentralManager!
     
     private var connectedPeripheral:CBPeripheral?
