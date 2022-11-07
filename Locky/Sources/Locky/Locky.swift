@@ -52,12 +52,21 @@ public class Locky {
                 return
             } else {
                 self?.tokenModel = token
+                UserDefaults.standard.setValue(token.token, forKey: "locky_token")
                 completion(true)
             }
         }
     }
     
     public func isAuthenticated()->Bool {
+        if tokenModel == nil || tokenModel!.token.isEmpty {
+            let storedToken = (UserDefaults.standard.object(forKey: "locky_token") as? String) ?? ""
+            if !storedToken.isEmpty {
+                tokenModel = TokenModel()
+                tokenModel!.token = storedToken
+            }
+        }
+        
         guard let token = tokenModel, !token.token.isEmpty else {
             return false
         }
@@ -65,6 +74,8 @@ public class Locky {
     }
     
     public func logout() {
+        tokenModel = nil
+        UserDefaults.standard.setValue(nil, forKey: "locky_token")
         stop()
     }
     
@@ -77,6 +88,15 @@ public class Locky {
     }
     
     public func getAllLocks(completion: @escaping (([LockDevice]?, Bool) -> Void)) {
+        
+        if tokenModel == nil || tokenModel!.token.isEmpty {
+            let storedToken = (UserDefaults.standard.object(forKey: "locky_token") as? String ) ?? ""
+            if !storedToken.isEmpty {
+                tokenModel = TokenModel()
+                tokenModel?.token = storedToken
+            }
+        }
+        
         guard let token = tokenModel, !token.token.isEmpty else {
             return
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4853A4A2291982C7002534FE /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 4853A4A1291982C7002534FE /* Toast */; };
 		485D025A2906E7B2000DCB94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02592906E7B2000DCB94 /* AppDelegate.swift */; };
 		485D025C2906E7B2000DCB94 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D025B2906E7B2000DCB94 /* SceneDelegate.swift */; };
 		485D025E2906E7B2000DCB94 /* LockyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D025D2906E7B2000DCB94 /* LockyViewController.swift */; };
@@ -70,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4853A4A2291982C7002534FE /* Toast in Frameworks */,
 				485D027B2906E8A8000DCB94 /* Locky.framework in Frameworks */,
 				48C1882229193E1400F9A4C6 /* SnapKit in Frameworks */,
 			);
@@ -147,6 +149,7 @@
 			name = LockyDemo;
 			packageProductDependencies = (
 				48C1882129193E1400F9A4C6 /* SnapKit */,
+				4853A4A1291982C7002534FE /* Toast */,
 			);
 			productName = LockyDemo;
 			productReference = 485D02562906E7B2000DCB94 /* LockyDemo.app */;
@@ -178,6 +181,7 @@
 			mainGroup = 485D024D2906E7B2000DCB94;
 			packageReferences = (
 				48C1882029193E1400F9A4C6 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				4853A4A0291982C7002534FE /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = 485D02572906E7B2000DCB94 /* Products */;
 			projectDirPath = "";
@@ -455,6 +459,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4853A4A0291982C7002534FE /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		48C1882029193E1400F9A4C6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -466,6 +478,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4853A4A1291982C7002534FE /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4853A4A0291982C7002534FE /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
 		48C1882129193E1400F9A4C6 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 48C1882029193E1400F9A4C6 /* XCRemoteSwiftPackageReference "SnapKit" */;

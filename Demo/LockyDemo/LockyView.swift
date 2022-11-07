@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import CoreBluetooth
 import Locky
+import Toast
 
 public class LockyView: UIView {
     private let scrollView = UIScrollView()
@@ -250,36 +251,53 @@ private extension LockyView {
     
     @objc func startEmailAction(sender: Any) {
         guard let emailText = emailTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !emailText.isEmpty else {
+            makeToast("Please input valid email", position: .center)
             return
         }
         if !emailText.isVaildEmail() {
+            makeToast("Please input valid email", position: .center)
             return
         }
-        locky.startVerify(email: emailText) { _ in
-            
+        makeToastActivity(.center)
+        locky.startVerify(email: emailText) { result in
+            self.hideToastActivity()
+            if !result {
+                self.makeToast("Fail to verify", position: .center)
+            }
         }
     }
     
     @objc func verifyAction(sender: Any) {
         guard let emailText = emailTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !emailText.isEmpty else {
+            makeToast("Please input valid email", position: .center)
             return
         }
         if !emailText.isVaildEmail() {
+            makeToast("Please input valid email", position: .center)
             return
         }
 
         guard let code = codeTextField.text?.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines), !code.isEmpty else {
+            makeToast("Please input valid code", position: .center)
             return
         }
-        locky.verify(code: code) { _ in
-            
+        makeToastActivity(.center)
+        locky.verify(code: code) { result in
+            self.hideToastActivity()
+            if !result {
+                self.makeToast("Fail to verify", position: .center)
+            }
         }
     }
     
     @objc func getLockAction(sender: Any) {
+        makeToastActivity(.center)
         locky.getAllLocks {[weak self] locks, result in
+            self?.hideToastActivity()
             if result {
                 self?.customLocksView(locks: locks)
+            } else {
+                self?.makeToast("Fail get locks", position: .center)
             }
         }
     }
