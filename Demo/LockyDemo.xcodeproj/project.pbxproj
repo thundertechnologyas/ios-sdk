@@ -8,33 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		4853A4A2291982C7002534FE /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 4853A4A1291982C7002534FE /* Toast */; };
+		4853A4E3291AA90B002534FE /* Locky.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4853A4E2291AA89E002534FE /* Locky.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		485D025A2906E7B2000DCB94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D02592906E7B2000DCB94 /* AppDelegate.swift */; };
 		485D025C2906E7B2000DCB94 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D025B2906E7B2000DCB94 /* SceneDelegate.swift */; };
 		485D025E2906E7B2000DCB94 /* LockyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D025D2906E7B2000DCB94 /* LockyViewController.swift */; };
 		485D02612906E7B2000DCB94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 485D025F2906E7B2000DCB94 /* Main.storyboard */; };
 		485D02632906E7B3000DCB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485D02622906E7B3000DCB94 /* Assets.xcassets */; };
 		485D02662906E7B3000DCB94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 485D02642906E7B3000DCB94 /* LaunchScreen.storyboard */; };
-		485D027B2906E8A8000DCB94 /* Locky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485D02752906E7E9000DCB94 /* Locky.framework */; };
-		485D027C2906E8A8000DCB94 /* Locky.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 485D02752906E7E9000DCB94 /* Locky.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		48C18819291936AD00F9A4C6 /* LockyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C18814291936AD00F9A4C6 /* LockyView.swift */; };
 		48C1881B2919375900F9A4C6 /* UITextField+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1881A2919375900F9A4C6 /* UITextField+Placeholder.swift */; };
 		48C1882229193E1400F9A4C6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1882129193E1400F9A4C6 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		485D02742906E7E9000DCB94 /* PBXContainerItemProxy */ = {
+		4853A4E1291AA89E002534FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 485D026D2906E7E9000DCB94 /* Locky.xcodeproj */;
+			containerPortal = 4853A4DC291AA89E002534FE /* Locky.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = "locky::Locky::Product";
 			remoteInfo = Locky;
-		};
-		485D02762906E7E9000DCB94 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 485D026D2906E7E9000DCB94 /* Locky.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "locky::LockyTests::Product";
-			remoteInfo = LockyTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -45,7 +37,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				485D027C2906E8A8000DCB94 /* Locky.framework in Embed Frameworks */,
+				4853A4E3291AA90B002534FE /* Locky.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53,6 +45,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4853A4DC291AA89E002534FE /* Locky.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Locky.xcodeproj; path = ../Locky.xcodeproj; sourceTree = "<group>"; };
 		485D02562906E7B2000DCB94 /* LockyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		485D02592906E7B2000DCB94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		485D025B2906E7B2000DCB94 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,7 +54,6 @@
 		485D02622906E7B3000DCB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		485D02652906E7B3000DCB94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		485D02672906E7B3000DCB94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		485D026D2906E7E9000DCB94 /* Locky.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Locky.xcodeproj; path = ../Locky/Locky.xcodeproj; sourceTree = "<group>"; };
 		48C18814291936AD00F9A4C6 /* LockyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyView.swift; sourceTree = "<group>"; };
 		48C1881A2919375900F9A4C6 /* UITextField+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Placeholder.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,7 +64,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4853A4A2291982C7002534FE /* Toast in Frameworks */,
-				485D027B2906E8A8000DCB94 /* Locky.framework in Frameworks */,
 				48C1882229193E1400F9A4C6 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,10 +71,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4853A4DD291AA89E002534FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4853A4E2291AA89E002534FE /* Locky.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		485D024D2906E7B2000DCB94 = {
 			isa = PBXGroup;
 			children = (
-				485D026D2906E7E9000DCB94 /* Locky.xcodeproj */,
+				4853A4DC291AA89E002534FE /* Locky.xcodeproj */,
 				485D02582906E7B2000DCB94 /* LockyDemo */,
 				485D02572906E7B2000DCB94 /* Products */,
 				485D027A2906E8A8000DCB94 /* Frameworks */,
@@ -112,15 +111,6 @@
 				485D02672906E7B3000DCB94 /* Info.plist */,
 			);
 			path = LockyDemo;
-			sourceTree = "<group>";
-		};
-		485D026E2906E7E9000DCB94 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				485D02752906E7E9000DCB94 /* Locky.framework */,
-				485D02772906E7E9000DCB94 /* LockyTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		485D027A2906E8A8000DCB94 /* Frameworks */ = {
@@ -187,8 +177,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 485D026E2906E7E9000DCB94 /* Products */;
-					ProjectRef = 485D026D2906E7E9000DCB94 /* Locky.xcodeproj */;
+					ProductGroup = 4853A4DD291AA89E002534FE /* Products */;
+					ProjectRef = 4853A4DC291AA89E002534FE /* Locky.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -199,18 +189,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		485D02752906E7E9000DCB94 /* Locky.framework */ = {
+		4853A4E2291AA89E002534FE /* Locky.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Locky.framework;
-			remoteRef = 485D02742906E7E9000DCB94 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		485D02772906E7E9000DCB94 /* LockyTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = file;
-			path = LockyTests.xctest;
-			remoteRef = 485D02762906E7E9000DCB94 /* PBXContainerItemProxy */;
+			remoteRef = 4853A4E1291AA89E002534FE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

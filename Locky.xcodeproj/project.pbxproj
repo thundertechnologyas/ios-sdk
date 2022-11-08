@@ -6,20 +6,6 @@
 	objectVersion = 52;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		"locky::LockyPackageTests::ProductTarget" /* LockyPackageTests */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_31 /* Build configuration list for PBXAggregateTarget "LockyPackageTests" */;
-			buildPhases = (
-			);
-			dependencies = (
-				OBJ_34 /* PBXTargetDependency */,
-			);
-			name = LockyPackageTests;
-			productName = LockyPackageTests;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		4812CAC529158D8700E87F2D /* LockyPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812CAC429158D8600E87F2D /* LockyPackage.swift */; };
 		4853A48129194C33002534FE /* Locky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853A48029194C33002534FE /* Locky.swift */; };
@@ -38,26 +24,7 @@
 		48ED337C29141B4F00AC2BE3 /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ED337B29141B4F00AC2BE3 /* BLEModel.swift */; };
 		48ED337E2914250A00AC2BE3 /* Data+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ED337D2914250A00AC2BE3 /* Data+String.swift */; };
 		OBJ_29 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_40 /* LockyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* LockyTests.swift */; };
-		OBJ_42 /* Locky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "locky::Locky::Product" /* Locky.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		485D02782906E7E9000DCB94 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "locky::LockyTests";
-			remoteInfo = LockyTests;
-		};
-		485D02792906E7E9000DCB94 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "locky::Locky";
-			remoteInfo = Locky;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4812CAC429158D8600E87F2D /* LockyPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyPackage.swift; sourceTree = "<group>"; };
@@ -75,10 +42,8 @@
 		48ED33772914154700AC2BE3 /* LockyBLEProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyBLEProtocol.swift; sourceTree = "<group>"; };
 		48ED337B29141B4F00AC2BE3 /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		48ED337D2914250A00AC2BE3 /* Data+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+String.swift"; sourceTree = "<group>"; };
-		OBJ_12 /* LockyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockyTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		"locky::Locky::Product" /* Locky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Locky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"locky::LockyTests::Product" /* LockyTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = LockyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,14 +52,6 @@
 			buildActionMask = 0;
 			files = (
 				485D02872906EFD8000DCB94 /* Alamofire in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_41 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_42 /* Locky.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,23 +100,6 @@
 			path = BLE;
 			sourceTree = "<group>";
 		};
-		OBJ_10 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_11 /* LockyTests */,
-			);
-			name = Tests;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_11 /* LockyTests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_12 /* LockyTests.swift */,
-			);
-			name = LockyTests;
-			path = Tests/LockyTests;
-			sourceTree = SOURCE_ROOT;
-		};
 		OBJ_13 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				"locky::Locky::Product" /* Locky.framework */,
-				"locky::LockyTests::Product" /* LockyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -180,20 +119,11 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
-				OBJ_7 /* Sources */,
-				OBJ_10 /* Tests */,
+				OBJ_8 /* Locky */,
 				OBJ_13 /* Dependencies */,
 				OBJ_14 /* Products */,
 			);
 			sourceTree = "<group>";
-		};
-		OBJ_7 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_8 /* Locky */,
-			);
-			name = Sources;
-			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_8 /* Locky */ = {
 			isa = PBXGroup;
@@ -204,8 +134,7 @@
 				4895482F290E6A3B0000D4D0 /* Utils */,
 				4853A48029194C33002534FE /* Locky.swift */,
 			);
-			name = Locky;
-			path = Sources/Locky;
+			path = Locky;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
@@ -229,23 +158,6 @@
 			productName = Locky;
 			productReference = "locky::Locky::Product" /* Locky.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		"locky::LockyTests" /* LockyTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_36 /* Build configuration list for PBXNativeTarget "LockyTests" */;
-			buildPhases = (
-				OBJ_39 /* Sources */,
-				OBJ_41 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				OBJ_43 /* PBXTargetDependency */,
-			);
-			name = LockyTests;
-			productName = LockyTests;
-			productReference = "locky::LockyTests::Product" /* LockyTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		"locky::SwiftPMPackageDescription" /* LockyPackageDescription */ = {
 			isa = PBXNativeTarget;
@@ -287,8 +199,6 @@
 			targets = (
 				"locky::Locky" /* Locky */,
 				"locky::SwiftPMPackageDescription" /* LockyPackageDescription */,
-				"locky::LockyPackageTests::ProductTarget" /* LockyPackageTests */,
-				"locky::LockyTests" /* LockyTests */,
 			);
 		};
 /* End PBXProject section */
@@ -324,28 +234,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_39 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_40 /* LockyTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		OBJ_34 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "locky::LockyTests" /* LockyTests */;
-			targetProxy = 485D02782906E7E9000DCB94 /* PBXContainerItemProxy */;
-		};
-		OBJ_43 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "locky::Locky" /* Locky */;
-			targetProxy = 485D02792906E7E9000DCB94 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		OBJ_19 /* Debug */ = {
@@ -460,80 +349,6 @@
 			};
 			name = Debug;
 		};
-		OBJ_32 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		OBJ_33 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		OBJ_37 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Locky.xcodeproj/LockyTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@loader_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = LockyTests;
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
-			};
-			name = Debug;
-		};
-		OBJ_38 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Locky.xcodeproj/LockyTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@loader_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = LockyTests;
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
-			};
-			name = Release;
-		};
 		OBJ_4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -586,24 +401,6 @@
 			buildConfigurations = (
 				OBJ_26 /* Debug */,
 				OBJ_27 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_31 /* Build configuration list for PBXAggregateTarget "LockyPackageTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_32 /* Debug */,
-				OBJ_33 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_36 /* Build configuration list for PBXNativeTarget "LockyTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_37 /* Debug */,
-				OBJ_38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
