@@ -4,8 +4,12 @@ This SDK is not a 100% is a demo SDK written in swift. It contain communication 
 This SDK has been built to demostrate how to build other SDK's on top of this demostration code. If you need a sdk for android, have a look at our sdk's named: android-sdk.
 
 
-# build
-+ Use SPM to add link
+### import
++ Use SPM, in the tab 'Package Dependencies' of Xcode, add the below package link, choose the branch or tag you want, then add it.
+
+```
+https://github.com/thundertechnologyas/ios-sdk
+```
 + add NSBluetoothAlwaysUsageDescription and UIBackgroundModes into the Info.plist of your project
 
 ``` bash
