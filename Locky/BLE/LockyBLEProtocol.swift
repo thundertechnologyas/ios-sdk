@@ -8,6 +8,8 @@
 import Foundation
 import CoreBluetooth
 
+/// Lock Bluetooth protocol. It contains events to notify discover, connect
+/// disconnect, write successfully or failure, read data.
 protocol LockyBLEProtocol {
     func didDiscover (_ devices: [LockyDeviceModel])
     func didConnect (device: LockyDeviceModel)

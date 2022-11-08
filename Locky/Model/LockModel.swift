@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+///Lock model with token and tenantId. it is used internal.
 struct LockModel: Decodable {
     var id: String = ""
     var name: String = ""

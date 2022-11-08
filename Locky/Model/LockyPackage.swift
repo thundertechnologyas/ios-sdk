@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// it is used to parse the content from downloaded package api
 struct LockyPackage: Decodable {
     var data: String = ""
 }

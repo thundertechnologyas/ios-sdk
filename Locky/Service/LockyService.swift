@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 
+/// The four types to download package
 enum PackageSignalType: String {
     case PulseOpen = "pulseopenpackage"
     case ForcedOpen = "forcedopenpackage"

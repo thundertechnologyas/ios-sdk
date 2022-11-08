@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+///data from verify api
 struct TokenModel: Decodable {
     var token: String = ""
     var dateCreated: String = ""

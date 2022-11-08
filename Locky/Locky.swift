@@ -30,6 +30,9 @@ public class Locky {
         stop()
     }
     
+    /// Call this function to tell locky to send a verification code on emai
+    /// @param email user's email
+    /// @param completion callback, success or fail to send
     public func startVerify(email: String, completion: @escaping ((Bool) -> Void)) {
         LockyService.startVerify(email: email) {[weak self] result, error in
             self?.email = email
@@ -37,6 +40,9 @@ public class Locky {
         }
     }
     
+    /// Obtain token by the code from email
+    /// @param code code from email
+    /// @param completion callback, success or fail to obtain
     public func verify(code: String, completion: @escaping ((Bool) -> Void)){
         guard let email = email else {
             completion(false)
@@ -58,6 +64,8 @@ public class Locky {
         }
     }
     
+    /// Judge user if authenticated
+    /// return true or false
     public func isAuthenticated()->Bool {
         if tokenModel == nil || tokenModel!.token.isEmpty {
             let storedToken = (UserDefaults.standard.object(forKey: "locky_token") as? String) ?? ""
@@ -73,12 +81,14 @@ public class Locky {
         return true
     }
     
+    /// logout, and clean token
     public func logout() {
         tokenModel = nil
         UserDefaults.standard.setValue(nil, forKey: "locky_token")
         stop()
     }
     
+    /// stop scan bluetooth and dis connect
     public func stop() {
         lockyHelper.delegate = nil
         lockyHelper.stopScan()
@@ -87,6 +97,9 @@ public class Locky {
         }
     }
     
+    /// stop scan bluetooth and dis connect
+    /// @param completion callback, true or false to get locks,
+    /// if true, then we can get locks list
     public func getAllLocks(completion: @escaping (([LockDevice]?, Bool) -> Void)) {
         
         if tokenModel == nil || tokenModel!.token.isEmpty {
@@ -113,6 +126,9 @@ public class Locky {
         }
     }
     
+    /// run pulse open operation when it has been authenticated
+    /// @param id, device id
+    /// @param completion callback, true or false to send the command
     public func pulseOpen(id: String, completion: @escaping ((Bool) -> Void)) {
         guard let deviceList = deviceList else {
             return

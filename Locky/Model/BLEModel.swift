@@ -8,6 +8,7 @@
 import Foundation
 import CoreBluetooth
 
+///data from advertisement data of bluetooth
 struct LockyDeviceModel {
     var bleId: String = ""
     var deviceId: String = ""
