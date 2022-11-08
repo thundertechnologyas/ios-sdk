@@ -25,12 +25,12 @@ https://github.com/thundertechnologyas/ios-sdk
 
 ```
 // Ask the locky backend for an authentication code.
-let sdk = Locky();
-sdk.startVerify(email);
+let sdk = Locky()
+sdk.startVerify(email)
 ```
 ### Then use the authentication code to login
 ```
-let sdk = Locky();
+let sdk = Locky()
 locky.verify(code: codeFromEmail) { result in
    // result is Bool to show sucess or failure.
 }
@@ -44,7 +44,7 @@ The devices object contain all the nessesary data to run operations on the lock,
 If the ble status is changed, the callback would trigger again at once.
 
 ```
-let sdk = Locky();
+let sdk = Locky()
 locky.getAllLocks {locks, result in
     // result is Bool to show sucess or failure.
     // locks is one list contains all locks which contain ble status
@@ -55,7 +55,37 @@ locky.getAllLocks {locks, result in
 If the ble status of lock is true, then we can run perations.
 
 ```
-let sdk = Locky();
-sdk.pulseOpen(device.id);
+let sdk = Locky()
+sdk.pulseOpen(device.id)
+```
+
+### Receive event
+The sdk also gives feedback to the end user about things happening. If user wants to know the current status, then user should set the LockyProtocol
+
+```
+let sdk = Locky()
+locky.delegate = self
+```
+```
+extension LockyView : LockyProtocol {
+// LockyView should be your view or view controller
+    public func postDeviceEvent(_ deviceId: String, eventType: EventType) {
+        // there you can know the status
+    }
+}
+```
+```
+public enum EventType: UInt32 {
+    case DiscoveredDevice   = 1  // it has discovered the device
+    case ConnectingDevice   = 2  // it is connecting the device
+    case DidConnectDevice   = 3  // it has connected the device
+    case DisConnectDevice   = 4  // it disconnects the device
+    case WritingDevice      = 5  // it is writing to the device
+    case DidWriteDevice     = 6  // it has written to the device
+    case FailureWriteDevice = 7  // it fails to write to the device
+    case DownloadPackage    = 8  // it is downloading package for the device
+    case DeliveringMessage  = 9  // messge is delivering
+    case MessageDelivered   = 10 // ithe message is delivered
+}
 ```
 

@@ -49,6 +49,7 @@ public class LockyView: UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        locky.delegate = self
         createSubviews()
     }
     
@@ -370,4 +371,10 @@ private extension LockyView {
         }
     }
     
+}
+
+extension LockyView : LockyProtocol {
+    public func postDeviceEvent(_ deviceId: String, eventType: EventType) {
+        
+    }
 }

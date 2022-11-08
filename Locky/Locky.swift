@@ -22,6 +22,8 @@ public class Locky {
     private var actionClosure: ((Bool)->Void)?
     private var updateLocksClosure: (([LockDevice]?, Bool)->Void)?
     
+    public var delegate: LockyProtocol?
+    
     public init() {
         lockyHelper.delegate = self
     }
@@ -91,6 +93,7 @@ public class Locky {
     /// stop scan bluetooth and dis connect
     public func stop() {
         lockyHelper.delegate = nil
+        delegate = nil
         lockyHelper.stopScan()
         if let connectedDevice = connectedDevice {
             lockyHelper.disconnect(device: connectedDevice)
@@ -159,14 +162,22 @@ extension Locky: LockyBLEProtocol {
     
     func didDiscover (_ devices: [LockyDeviceModel]) {
         updateLockStatus(devices)
+        if devices.count > 0 {
+            let device = devices.last
+            delegate?.postDeviceEvent(device!.deviceId, eventType: .DiscoveredDevice)
+        }
     }
     
     func didConnect(device: LockyDeviceModel) {
         connectedDevice = device
+        if !lockyHelper.autoCollectBLEData {
+            delegate?.postDeviceEvent(device.deviceId, eventType: .DidConnectDevice)
+        }
         writeData(device: device)
     }
     
     func didDisconnect (device: LockyDeviceModel) {
+        delegate?.postDeviceEvent(device.deviceId, eventType: .DisConnectDevice)
         connectedDevice = nil
     }
     
@@ -174,9 +185,18 @@ extension Locky: LockyBLEProtocol {
         packageSignalType = nil
         if let _ = error {
             actionClosure?(false)
+            guard let connectedDevice = connectedDevice else {
+                return
+            }
+            delegate?.postDeviceEvent(connectedDevice.deviceId, eventType: .FailureWriteDevice)
             return
         }
         actionClosure?(true)
+        guard let connectedDevice = connectedDevice else {
+            return
+        }
+        delegate?.postDeviceEvent(connectedDevice.deviceId, eventType: .DidWriteDevice)
+        
     }
     
     func didRead (device: LockyDeviceModel?, data: String?) {
@@ -194,7 +214,11 @@ extension Locky: LockyBLEProtocol {
             }
             var payload = [String: Any]()
             payload["data"] = data
-            LockyService.messageDelivered(token: lock.token!, deviceId: lock.id, tenantId: lock.tenantId!, payload: payload) { _ in
+            delegate?.postDeviceEvent(lock.id, eventType: .DeliveringMessage)
+            LockyService.messageDelivered(token: lock.token!, deviceId: lock.id, tenantId: lock.tenantId!, payload: payload) {[weak self] result in
+                if result {
+                    self?.delegate?.postDeviceEvent(lock.id, eventType: .MessageDelivered)
+                }
             }
         }
 
@@ -230,10 +254,12 @@ private extension Locky {
         }
         
         connectedLock = lock
+        delegate?.postDeviceEvent(lock.id, eventType: .DownloadPackage)
         LockyService.downloadPackage(token: lock.token!, deviceId: device.deviceId, tenantId: lock.tenantId!, type: signalType) {[weak self] package in
             guard let package = package else {
                 return
             }
+            self?.delegate?.postDeviceEvent(lock.id, eventType: .WritingDevice)
             let dataFromBase64 = Data(base64Encoded: package)
             if dataFromBase64 != nil {
                 self?.lockyHelper.writeData(device: device, data: dataFromBase64!)

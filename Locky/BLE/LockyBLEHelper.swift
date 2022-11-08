@@ -23,7 +23,7 @@ class LockyBLEHelper: NSObject {
     private var resetHasDataWorkItem:DispatchWorkItem?
     private var deltaTime = 0
     
-    private var autoCollectBLEData = true
+    var autoCollectBLEData = true
     
     // CBCService UUID
     private let confirmServiceUUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
