@@ -1,7 +1,7 @@
 # Locky Swift SDK
-This SDK is not a 100% is a demo SDK written in swift. It contain communication over the bluetooth and restful services.
+This SDK contains a demo SDK written in swift. It also contains communication over the bluetooth and restful services.
 
-This SDK has been built to demostrate how to build other SDK's on top of this demostration code. If you need a sdk for android, have a look at our sdk's named: android-sdk.
+This SDK has been built to demostrate how to build other app's on top of this demostration code. If you need a sdk for android, have a look at our sdk's named: android-sdk.
 
 
 ### import
