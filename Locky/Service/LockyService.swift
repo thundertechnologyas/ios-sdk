@@ -119,7 +119,7 @@ class LockyService {
                         
                     }
                 }
-                completion(dataArray, loadIndex == mobileKeys.count - 1)
+                completion(dataArray, loadIndex >= mobileKeys.count)
             }
         }
     }
