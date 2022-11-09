@@ -62,7 +62,7 @@ class LockyService {
         }
     }
     
-    public class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockModelKey]?) -> Void)) {
+    public class func getMobileKeys(token: String, completion: @escaping ((Bool, [LockyMobileKey]?) -> Void)) {
         var params = [String: Any]()
         params["domain"] = Environment.domain
         params["token"] = token
@@ -77,11 +77,11 @@ class LockyService {
             }
             do {
                 let tenantList = try Network.decode(type: [String].self, data: data)
-                var dataArray:[LockModelKey] = []
+                var dataArray:[LockyMobileKey] = []
                 for toCheck in tenantList {
                     let tenantId = (toCheck as NSString).substring(to: 24)
                     let token = (toCheck as NSString).substring(from: 24)
-                    dataArray.append(LockModelKey(token: token, tenantId: tenantId))
+                    dataArray.append(LockyMobileKey(token: token, tenantId: tenantId))
                 }
 //                let jsonString = try Network.encode(from: tenantList)
                 completion(true, dataArray)
@@ -92,7 +92,7 @@ class LockyService {
         }
     }
     
-    public class func getAllLocks(_ mobileKeys: [LockModelKey], completion: @escaping (([LockModel], Bool) -> Void)) {
+    public class func getAllLocks(_ mobileKeys: [LockyMobileKey], completion: @escaping (([LockModel], Bool) -> Void)) {
         var loadIndex = 0
         for mobile in mobileKeys {
             var headers = [String: String]()

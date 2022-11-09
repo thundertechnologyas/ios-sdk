@@ -1,5 +1,5 @@
 //
-//  MobileKey.swift
+//  LockyMobileKey.swift
 //  Locky
 //
 //  Created by Shaolin Zhou on 2022/10/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LockModelKey {
+struct LockyMobileKey {
     var token: String = ""
     var tenantId: String = ""
 }

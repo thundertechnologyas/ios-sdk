@@ -13,7 +13,7 @@ public class Locky {
     private var packageSignalType: PackageSignalType?
     private var email: String?
     private var tokenModel: TokenModel?
-    private var mobileKeyList: [LockModelKey]?
+    private var mobileKeyList: [LockyMobileKey]?
     private var peripherals: [CBPeripheral]?
     private var locksList = [LockModel]()
     private var deviceList: [LockyDeviceModel]?
