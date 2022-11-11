@@ -208,7 +208,7 @@ extension Locky: LockyBLEProtocol {
             payload["data"] = data
             LockyService.messageDelivered(token: connectedLock.token!, deviceId: connectedLock.id, tenantId: connectedLock.tenantId!, payload: payload) { [weak self] result in
                 if result {
-                    self?.delegate?.postDeviceEvent(lock.id, eventType: .MessageDelivered)
+                    self?.delegate?.postDeviceEvent(connectedLock.id, eventType: .MessageDelivered)
                 }
             }
         } else if let device = device {
