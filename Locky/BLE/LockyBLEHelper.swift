@@ -53,6 +53,7 @@ class LockyBLEHelper: NSObject {
             return
         }
         autoCollectBLEData = false
+        deltaTime = 0
         for item in workItems {
             item.cancel()
         }
@@ -95,6 +96,7 @@ class LockyBLEHelper: NSObject {
         guard let peripheral = device.peripheral else {
             return
         }
+        deltaTime = 0
         autoCollectBLEData = false
         if resetHasDataWorkItem != nil {
             resetHasDataWorkItem?.cancel()
@@ -154,6 +156,9 @@ extension LockyBLEHelper: CBCentralManagerDelegate{
                     }
                     if (self?.workItems.count ?? 0) > 0 {
                         self?.workItems.removeFirst()
+                    }
+                    if (self?.workItems.count ?? 0) == 0 {
+                        self?.deltaTime = 2
                     }
                 }
                 workItems.append(workItem)
