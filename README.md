@@ -3,6 +3,8 @@ This SDK contains a demo SDK written in swift. It also contains communication ov
 
 This SDK has been built to demostrate how to build other app's on top of this demostration code. If you need a sdk for android, have a look at our sdk's named: android-sdk.
 
+More information about locky:
+https://www.locky.tech
 
 ### import
 + Use SPM, in the tab 'Package Dependencies' of Xcode, add the below package link, choose the branch or tag you want, then add it.
